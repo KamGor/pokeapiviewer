@@ -1,0 +1,14 @@
+<p>list works!</p>
+<div>
+  <div>
+    <ul>
+      @if (listPokemons) { @for (pokemon of listPokemons; track $index) {
+      <li>{{ pokemon.name }}</li>
+      } }
+    </ul>
+  </div>
+  <div>
+    <button [disabled]="isPrev" (click)="paginationHandler('prev')">Prev</button>
+    <button [disabled]="isNext" (click)="paginationHandler('next')">Next</button>
+  </div>
+</div>

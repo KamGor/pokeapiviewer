@@ -1,0 +1,15 @@
+<p>habitats works!</p>
+{{ pokemonHabitats?.id }}
+{{ pokemonHabitats?.name }}
+@if (pokemonHabitats) {
+{{ pokemonHabitats.name }}
+{{ pokemonHabitats.id }}
+@for(habit of pokemonHabitats.pokemonSpecies; track $index) {
+{{ habit.baseHappiness }}
+{{ habit.captureRate }}
+{{ habit.flavorText }}
+}} @else {
+<span>NIEMA!</span>
+}
+
+<router-outlet></router-outlet>

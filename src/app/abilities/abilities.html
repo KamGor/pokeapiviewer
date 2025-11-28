@@ -1,0 +1,18 @@
+<p>abilities works!</p>
+<div class="text-center">
+  <!-- {{ pokemon?.name }}
+  {{ pokemon?.id }} -->
+  <!-- <img [src]="pokemon?.imgSrc" alt="" /> -->
+  <!-- <img [src]="pokemon?.imgSpriteBack" alt="" /> -->
+  @if (pokemon) {
+  {{ pokemon.name }}
+  {{ pokemon.id }}
+  @for(ability of pokemon.abilities; track $index) {
+  {{ ability.name }}
+  {{ ability.description }}
+  {{ ability.isHidden }}
+  }} @else {
+  <span>NIEMA!</span>
+  }
+</div>
+<router-outlet></router-outlet>
