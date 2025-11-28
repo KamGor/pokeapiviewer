@@ -1,0 +1,29 @@
+<div>
+  <div>
+    <input
+      [(ngModel)]="pokemonName"
+      type="text"
+      id="name"
+      autocomplete="off"
+      placeholder="Pokedex search"
+      class="form__input"
+      (keyup)="searchPokemon()"
+      (keyup.enter)="selectPokemon()"
+    />
+    <button class="btn" (click)="searchPokemon()">FIND</button>
+  </div>
+  <div>
+    <ul>
+      @if(pokemonList) { @for(pok of pokemonList; track $index) {
+      <li class="cursor-pointer">
+        <!-- {{ pok.url }} -->
+        <!-- <button (click)="">{{ pok.name }}</button> -->
+        <a (click)="navigateDetails(pok.name)">{{ pok.name }}</a>
+      </li>
+
+      } }
+    </ul>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

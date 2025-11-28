@@ -1,0 +1,53 @@
+<!-- <p>pokemon works!</p>
+
+<p>search works!</p>
+<input
+  [(ngModel)]="pokemonName"
+  type="text"
+  id="name"
+  autocomplete="off"
+  placeholder=" "
+  class="form__input"
+  (keyup.enter)="ngOnInit()"
+/>
+<label (click)="ngOnInit()" for="name">Name or ID</label> -->
+<!-- <button class="btn" (click)="ngOnInit()">FIND</button> -->
+
+<nav>
+  <a routerLink="abilities" routerLinkActive="active">Abilities</a>
+  <a routerLink="habitats" routerLinkActive="active">Habitats</a>
+</nav>
+@if (isBaseRouteActive) {
+<div class="container mx-auto text-center px-120 py-100 bg-purple-700">
+  {{ pokemon?.id }}
+  {{ pokemon?.name }}
+  <!-- <img [src]="pokemon?.imgSrc" alt="imgSrc" /> -->
+  <div class="flex gap-30">
+    <img [src]="pokemon?.imgSprite" alt="" />
+    <img [src]="pokemon?.imgSpriteBack" alt="" />
+  </div>
+  @if (pokemon) { @for(ability of pokemon.abilities; track $index) {
+  {{ ability.name }}
+  {{ ability.description }}
+  {{ ability.isHidden }}
+  }}
+  <!-- {{ pokemon?.name }} -->
+
+  <!-- <img [src]="pokemon?.imgSprite" alt="" />
+  <img [src]="pokemon?.imgSpriteBack" alt="" />
+  @if (pokemon) { @for(ability of pokemon.abilities; track $index) {
+  {{ ability.name }}
+  {{ ability.description }}
+  {{ ability.isHidden }}
+  } @for (form of pokemon.forms; track $index) { name: {{ form.name }}
+  <img [src]="form.frontDefault" alt="" />
+  <img [src]="form.backDefault" alt="" />
+  } @for (move of pokemon.moves; track $index) {
+  {{ move.name }}
+  {{ move.description }}
+  } }@else {
+  <span> nie znalazlem pokemona </span>
+  } -->
+</div>
+}
+<router-outlet></router-outlet>
