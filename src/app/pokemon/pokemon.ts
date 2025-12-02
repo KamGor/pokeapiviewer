@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PokemonResponce } from '../pokemoninterface';
 import axios from 'axios';
-import { Pokemono } from '../pokemon_interface';
+import { Pokemono } from '../pokemono.interface';
 import {
   ActivatedRoute,
   Router,
@@ -35,14 +35,11 @@ export class Pokemon implements OnInit {
   async ngOnInit() {
     const idString = this.activatedRoute.snapshot.paramMap.get('name');
     this.pokemonId = idString ? idString : undefined;
-    // console.log('this.pokemonId', this.pokemonId);
     if (this.pokemonId === null) return;
     this.pokemon = await this.pokeApiClient.getPokemon(this.pokemonId);
-    // console.log('this.pokemon', this.pokemon);
   }
 
   async getPokemon() {
-    // console.log('sdadasd');
     try {
       const { data } = await axios.get<PokemonResponce>(
         `https://pokeapi.co/api/v2/pokemon/${this.pokemonId}`
@@ -55,7 +52,6 @@ export class Pokemon implements OnInit {
         promises.push(promise.then((response) => response.data));
       }
       const abilities = await Promise.all(promises);
-      // console.log(abilities);
       this.pokemonData = {
         id: data.id,
         name: data.name,
@@ -75,7 +71,6 @@ export class Pokemon implements OnInit {
           };
         }),
       };
-      // console.log('ssadasd', this.pokemonData);
     } catch (error) {
       ('Pokemon not found');
     }

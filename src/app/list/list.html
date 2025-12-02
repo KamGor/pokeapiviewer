@@ -7,8 +7,24 @@
       } }
     </ul>
   </div>
-  <div>
+  <div class="inline-flex">
+    <button
+      [disabled]="isPrev"
+      (click)="paginationHandler('prev')"
+      class="bg-green-400 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+    >
+      Prev
+    </button>
+    <button
+      [disabled]="isNext"
+      (click)="paginationHandler('next')"
+      class="bg-green-500 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+    >
+      Next
+    </button>
+  </div>
+  <!-- <div>
     <button [disabled]="isPrev" (click)="paginationHandler('prev')">Prev</button>
     <button [disabled]="isNext" (click)="paginationHandler('next')">Next</button>
-  </div>
+  </div> -->
 </div>

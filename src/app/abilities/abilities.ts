@@ -3,43 +3,36 @@ import { ActivatedRoute, RouterLink, RouterLinkActive, RouterModule } from '@ang
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { Pokemono } from '../pokemon_interface';
+import { Pokemono } from '../pokemono.interface';
 import { PokeApiClient } from '../poke-api-client';
 
 @Component({
   selector: 'app-abilities',
-  standalone: true, // Рекомендуется для новых компонентов Angular
-  imports: [
-    CommonModule, // Теперь нужен, если компонент автономный (Standalone)
-    RouterLink,
-    RouterLinkActive,
-    RouterModule,
-    FormsModule,
-  ],
+  standalone: true, //Recommended for new Angular components
+  imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule, FormsModule],
   templateUrl: './abilities.html',
   styleUrl: './abilities.scss',
 })
 export class Abilities implements OnInit {
   pokemonName: string | null = null;
-  public pokemonData!: Pokemono; // Оставим '!' если уверены, что будет инициализировано
+  public pokemonData!: Pokemono; // Leave sign '!' if you are suare that variabl will be initialized.
 
   pokemon: Pokemono | null = null;
 
   constructor(private route: ActivatedRoute, private pokeApiClient: PokeApiClient) {}
 
   ngOnInit(): void {
-    // 4. Более безопасный доступ к родителю
+    // Easiest acces to parent component.
     this.route.parent?.paramMap.subscribe((params) => {
       this.pokemonName = params.get('name');
 
-      // 5. Вызываем получение данных после того, как имя получено
+      // Call the data fetcher after the name is received.
       if (this.pokemonName) {
         this.getThePokemon();
       }
     });
   }
-
-  // 6. Уточнение возвращаемого типа и обработка ошибок
+  //Specifying the return type and error handling
   async getThePokemon(): Promise<void> {
     if (!this.pokemonName) {
       console.error('Имя покемона не определено.');
@@ -48,11 +41,11 @@ export class Abilities implements OnInit {
 
     try {
       this.pokemon = await this.pokeApiClient.getPokemon(this.pokemonName);
-      // Если нужно сохранить данные в pokemonData (зависит от логики)
+      // If you need to save data in pokemonData.
       this.pokemonData = this.pokemon as Pokemono;
     } catch (error) {
       console.error('Ошибка при получении данных покемона:', error);
-      this.pokemon = null; // Сбросить, если произошла ошибка
+      this.pokemon = null; // Reset if you have an error.
     }
   }
 }

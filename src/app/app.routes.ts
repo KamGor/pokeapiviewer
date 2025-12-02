@@ -3,7 +3,7 @@ import { Search } from './search/search';
 import { Pokemon } from './pokemon/pokemon';
 import { Abilities } from './abilities/abilities';
 import { Habitats } from './habitats/habitats';
-import { List } from './list/list';
+import { ListPage } from './list/list';
 import { Berries } from './berries/berries';
 import { Locations } from './locations/locations';
 import { SearchAutocomplete } from './search-autocomplete/search-autocomplete';
@@ -11,7 +11,7 @@ import { SearchAutocomplete } from './search-autocomplete/search-autocomplete';
 export const routes: Routes = [
   {
     component: Search,
-    path: 'search/:name',
+    path: 'search',
   },
   {
     component: Pokemon,
@@ -27,16 +27,13 @@ export const routes: Routes = [
       },
     ],
   },
-  // {
-  //   component: Abilities,
-  //   path: 'abilities',
-  // },
+
   {
     component: Habitats,
     path: 'habitats',
   },
   {
-    component: List,
+    component: ListPage,
     path: 'list',
   },
   {
@@ -48,16 +45,8 @@ export const routes: Routes = [
     path: 'locations',
   },
   {
-    path: '**',
     component: SearchAutocomplete,
-    //   // redirectTo: '',
+    path: 'SearchAutocomplete',
+    // redirectTo: '',
   },
-  //   children: [
-  //     {
-  //       path: 'pokemon:name',
-  //       component: Pokemon,
-  //     },
-  //   ],
-  //   // redirectTo: '',
-  // },
 ];

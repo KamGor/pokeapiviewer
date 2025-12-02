@@ -17,7 +17,7 @@ import axios from 'axios';
   templateUrl: './list.html',
   styleUrl: './list.scss',
 })
-export class List implements OnInit {
+export class ListPage implements OnInit {
   prevPokemons: any = '';
   nextPokemons: any = '';
   listPokemons: any = '';

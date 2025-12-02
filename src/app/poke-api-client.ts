@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import axios from 'axios';
 import { HttpClient } from './http-client';
-// import { Pokemon } from './pokemon/pokemon';
-import { pokemonMoves } from './pokemonMoves';
-import { pokemonForms } from './pokemonForms';
-import { pokemonAbility } from './pokemonAbility';
-import { pokemonAnswer } from './pokeResponce';
-import { Pokemon } from './pokemonPrivate';
+import { pokemonMoves } from './pokemon-moves.interface';
+import { pokemonForms } from './pokemon-forms.interface';
+import { pokemonAbility } from './pokemon-ability.interface';
+import { pokemonAnswer } from './pokemon-answer.interface';
+import { Pokemon } from './pokemon.interface';
 import { responseHabitats } from './api-habitat/responceHabitats';
 import { pokemonHabitats } from './api-habitat/pokemonHabitats';
 import { privateHabitats } from './api-habitat/privateHabitats';
@@ -25,33 +23,26 @@ export class PokeApiClient {
     const abilityPromises: Promise<pokemonAbility>[] = [];
     const formPromises: Promise<pokemonForms>[] = [];
     const movePromises: Promise<pokemonMoves>[] = [];
-    // const habitatPromises: Promise<pokemonMoves>[] = [];
 
     const data = response.data;
     for (const ability of data.abilities) {
-      const abilityPromise = axios.get<pokemonAbility>(ability.ability.url);
+      const abilityPromise = this.httpClient.get<pokemonAbility>(ability.ability.url);
       abilityPromises.push(abilityPromise.then((response) => response.data));
     }
 
     for (const form of data.forms) {
-      const formPromise = axios.get<pokemonForms>(form.url);
+      const formPromise = this.httpClient.get<pokemonForms>(form.url);
       formPromises.push(formPromise.then((response) => response.data));
     }
 
     for (const move of data.moves) {
-      const movePromise = axios.get<pokemonMoves>(move.move.url);
+      const movePromise = this.httpClient.get<pokemonMoves>(move.move.url);
       movePromises.push(movePromise.then((response) => response.data));
     }
-
-    // for (const habitat of data.) {
-    //   const habitatPromise = axios.get<>(habitat.url);
-    //   habitatPromises.push(habitatPromise.then((response) => response.data));
-    // }
 
     const moves = await Promise.all(movePromises);
     const abilities = await Promise.all(abilityPromises);
     const forms = await Promise.all(formPromises);
-    // const habitat = await Promise.all(habitatPromises);
 
     const pokemon: Pokemon = {
       name: data.name,
@@ -101,7 +92,7 @@ export class PokeApiClient {
     const data = response.data;
 
     for (const habitat of data.pokemon_species) {
-      const habitatPromise = axios.get<pokemonHabitats>(habitat.url);
+      const habitatPromise = this.httpClient.get<pokemonHabitats>(habitat.url);
       habitatPromises.push(habitatPromise.then((response) => response.data));
     }
 

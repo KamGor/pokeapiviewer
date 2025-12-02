@@ -27,13 +27,11 @@ export class SearchAutocomplete implements OnInit {
 
   async searchPokemon() {
     const nameToSearch = this.pokemonName.toLowerCase().trim();
-    if (nameToSearch.length >= 2) {
+    if (nameToSearch.length >= 3) {
       const allPokemons = this.pokemonData.data.results;
-      // console.log('all', this.pokemonData);
       const list = allPokemons.filter((pokemon: any) => {
         return pokemon.name.includes(nameToSearch);
       });
-      // console.log('list', list);
       this.pokemonList = list;
     }
   }
@@ -50,7 +48,6 @@ export class SearchAutocomplete implements OnInit {
     const current = allPokemons.filter((pokemon: any) => {
       return pokemon.name === nameToSearch;
     });
-    // console.log(current);
     if (current.length !== 0) {
       this.navigateDetails(nameToSearch);
     }

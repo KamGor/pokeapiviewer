@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/route
 import { PokeApiClient } from '../poke-api-client';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Pokemon } from '../pokemonPrivate';
+import { Pokemon } from '../pokemon.interface';
 
 @Component({
   selector: 'app-search',
@@ -23,6 +23,5 @@ export class Search implements OnInit {
     const pokemonId = this.activatedRoute.snapshot.paramMap.get('name');
     if (pokemonId === null) return;
     this.pokemon = await this.pokeApiClient.getPokemon(pokemonId);
-    // this.offBtn();
   }
 }

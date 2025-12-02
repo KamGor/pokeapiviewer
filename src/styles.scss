@@ -1,22 +1,12 @@
 @use 'tailwindcss'; 
-// @use base;
-// @use components;
-// @use utilities;
-// body {
-//         width: 100%;
-
-//     background-image: url("./assets/pokedex.png");
-  
-// }
 body {
    
-   background-attachment: fixed;
-   min-height: 100vh;
-   width: 100%;
-   //  height: 739px;
- background-position: center; /* Выравнивает изображение по центру */
-  background-size: cover;     /* Масштабирует изображение, чтобы оно покрывало всю область */
-  background-repeat: no-repeat; /* Отключает повторение изображения */
-     background-image: url("/pokedex.png");
+background-attachment: fixed;
+min-height: 100vh;
+width: 100%;
+background-position: center; 
+background-size: cover;     
+background-repeat: no-repeat;
+background-image: url("/pokedex.png");
 }
 

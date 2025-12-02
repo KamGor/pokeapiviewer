@@ -1,15 +1,17 @@
 <p>habitats works!</p>
-{{ pokemonHabitats?.id }}
-{{ pokemonHabitats?.name }}
-@if (pokemonHabitats) {
-{{ pokemonHabitats.name }}
-{{ pokemonHabitats.id }}
-@for(habit of pokemonHabitats.pokemonSpecies; track $index) {
-{{ habit.baseHappiness }}
-{{ habit.captureRate }}
-{{ habit.flavorText }}
-}} @else {
-<span>NIEMA!</span>
-}
 
+<div class="container mx-auto -mt-170">
+  {{ pokemonHabitats?.id }}
+  {{ pokemonHabitats?.name }}
+  @if (pokemonHabitats) {
+  {{ pokemonHabitats.name }}
+  {{ pokemonHabitats.id }}
+  @for(habit of pokemonHabitats.pokemonSpecies; track $index) {
+  {{ habit.baseHappiness }}
+  {{ habit.captureRate }}
+  {{ habit.flavorText }}
+  }} @else {
+  <span>NIEMA!Api nie daje mi zadnej odpowiedzi, a w konsoli mam error 404</span>
+  }
+</div>
 <router-outlet></router-outlet>

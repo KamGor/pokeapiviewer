@@ -13,18 +13,17 @@ import { privateHabitats } from '../api-habitat/privateHabitats';
 })
 export class Habitats implements OnInit {
   pokemonName: string | null = null;
-  public pokemonData!: privateHabitats; // Оставим '!' если уверены, что будет инициализировано
+  public pokemonData!: privateHabitats; //Leave the '!' if you are sure it will be initialized.
   pokemonHabitats: privateHabitats | null = null;
   constructor(private route: ActivatedRoute, private pokeApiClient: PokeApiClient) {}
 
   ngOnInit(): void {
-    // 4. Более безопасный доступ к родителю
+    // More secure access to parent
     this.route.parent?.paramMap.subscribe((params) => {
       this.pokemonName = params.get('name');
 
-      // 5. Вызываем получение данных после того, как имя получено
+      // Call the data fetcher after the name of pokemon is received
       if (this.pokemonName) {
-        // this.getThePokemon();
         this.getPokemonHabitats();
       }
     });
@@ -37,11 +36,11 @@ export class Habitats implements OnInit {
     }
     try {
       this.pokemonHabitats = await this.pokeApiClient.getPokemonHabitats(this.pokemonName);
-      // Если нужно сохранить данные в pokemonData (зависит от логики)
+      // If you need to save data in pokemonData
       this.pokemonData = this.pokemonHabitats as privateHabitats;
     } catch (error) {
       console.error('Ошибка при получении данных покемона:', error);
-      this.pokemonHabitats = null; // Сбросить, если произошла ошибка
+      this.pokemonHabitats = null; // Reset if you have an error
     }
   }
 }

@@ -1,18 +1,17 @@
-<p>abilities works!</p>
-<div class="text-center">
-  <!-- {{ pokemon?.name }}
-  {{ pokemon?.id }} -->
-  <!-- <img [src]="pokemon?.imgSrc" alt="" /> -->
-  <!-- <img [src]="pokemon?.imgSpriteBack" alt="" /> -->
-  @if (pokemon) {
-  {{ pokemon.name }}
-  {{ pokemon.id }}
-  @for(ability of pokemon.abilities; track $index) {
-  {{ ability.name }}
-  {{ ability.description }}
-  {{ ability.isHidden }}
-  }} @else {
-  <span>NIEMA!</span>
-  }
-</div>
+<section class="bg-purple-700 w-179 -mt-150">
+  <div class="container mx-auto ml-80 text-white">
+    <div class="flex gap-2">
+      <div class="ml-75 text-white">{{ pokemon?.id }}</div>
+      <div class="text-transform: uppercase text-green-500">{{ pokemon?.name }}</div>
+    </div>
+    <img class="animate-pulse size-30 ml-75" [src]="pokemon?.imgSrc" alt="" />
+    @if (pokemon) { @for(ability of pokemon.abilities; track $index) {
+    {{ ability.name }}
+    {{ ability.description }}
+    {{ ability.isHidden }}
+    }} @else {
+    <span>NIEMA!</span>
+    }
+  </div>
+</section>
 <router-outlet></router-outlet>
