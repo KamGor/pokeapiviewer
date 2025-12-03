@@ -17,12 +17,6 @@
       <img class="size-40" [src]="pokemon?.imgSprite" alt="" />
       <img class="size-40" [src]="pokemon?.imgSpriteBack" alt="" />
     </div>
-    <!-- @if (pokemon) { @for(ability of pokemon.abilities; track $index) {
-    {{ ability.name }}
-    {{ ability.description }}
-    {{ ability.isHidden }}
-
-    }} -->
     <p class="text-center text-green-500">About pokemon:</p>
     @for (form of pokemon?.forms; track $index) { name: {{ form.name }}
     } @for (move of pokemon?.moves; track $index) {
