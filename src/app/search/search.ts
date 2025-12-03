@@ -13,7 +13,7 @@ import { Pokemon } from '../pokemon.interface';
 })
 export class Search implements OnInit {
   pokemonName: string | undefined = '';
-  pokemon!: Pokemon | undefined;
+  pokemon!: Pokemon;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLinkActive, RouterModule } from '@angular/router';
 import { PokeApiClient } from '../poke-api-client';
-import { PrivateHabitats } from '../api-habitat/privateHabitats';
+import { PrivateHabitats } from '../api-habitat/PrivateHabitats';
 
 @Component({
   selector: 'app-habitats',

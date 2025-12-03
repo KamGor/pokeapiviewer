@@ -5,9 +5,9 @@ import { PokemonForms } from './pokemon-forms.interface';
 import { PokemonAbility } from './pokemon-ability.interface';
 import { PokemonAnswer } from './pokemon-answer.interface';
 import { Pokemon } from './pokemon.interface';
-import { ResponseHabitats } from './api-habitat/responceHabitats';
-import { PokemonHabitats } from './api-habitat/pokemonHabitats';
-import { PrivateHabitats } from './api-habitat/privateHabitats';
+import { ResponseHabitats } from './api-habitat/ResponceHabitats';
+import { PokemonHabitats } from './api-habitat/PokemonHabitats';
+import { PrivateHabitats } from './api-habitat/PrivateHabitats';
 import { berriesResponce } from './api-berries/berries-responce';
 import { pokemonItems } from './api-berries/pokemon-items';
 import { berriesPrivate } from './api-berries/berries-private';
@@ -85,9 +85,7 @@ export class PokeApiClient {
   }
 
   public async getPokemonList(url: string): Promise<PokemonListResponse> {
-    // Проверяем, если передан полный URL, используем его, иначе используем BASE_URL + 'pokemon'
     const finalUrl = url.includes(this.BASE_URL) ? url : `${this.BASE_URL}pokemon/`;
-
     const response = await this.httpClient.get<PokemonListResponse>(finalUrl);
     return response.data;
   }

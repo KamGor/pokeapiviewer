@@ -9,7 +9,6 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { PokeApiClient } from '../poke-api-client';
-import axios from 'axios';
 import { PokemonListItem } from './pokemon-list-item';
 
 @Component({
