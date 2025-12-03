@@ -1,4 +1,4 @@
-<div class="container mx-auto -mt-170">
+<div class="container mx-auto -mt-650">
   {{ PokemonHabitats?.id }}
   {{ PokemonHabitats?.name }}
   @if (PokemonHabitats) {
@@ -9,7 +9,10 @@
   {{ habit.captureRate }}
   {{ habit.flavorText }}
   }} @else {
-  <span>NIEMA!Api nie daje mi zadnej odpowiedzi, a w konsoli mam error 404</span>
+  <span
+    >Jesli to czytasz to Api nie daje mi zadnej odpowiedzi z serwera, a w konsoli mam error
+    404</span
+  >
   }
 </div>
 <router-outlet></router-outlet>
