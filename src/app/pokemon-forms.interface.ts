@@ -1,4 +1,4 @@
-export interface pokemonForms {
+export interface PokemonForms {
   form_name: string;
   form_names: unknown[];
   form_order: number;

@@ -1,4 +1,4 @@
-export interface pokemonAnswer {
+export interface PokemonAnswer {
   id: number;
   name: string;
   abilities: {
@@ -32,19 +32,4 @@ export interface pokemonAnswer {
       url: string;
     };
   }[];
-
-  // habitats: {
-  //   id: number;
-  //   name: string;
-  //   names: {
-  //     name: string;
-  //     language: {
-  //       name: string;
-  //       url: string;
-  //     };
-  //   };
-  // pokemon_species: {
-  //   name: string;
-  //   url: string;
-  // };
 }

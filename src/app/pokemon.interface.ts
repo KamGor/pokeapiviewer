@@ -8,16 +8,16 @@ export interface Pokemon {
   }[];
 
   imgSrc?: string;
-  imgSprite: string;
-  imgSpriteBack: string;
+  imgSprite?: string;
+  imgSpriteBack?: string;
 
-  forms: {
+  forms?: {
     name: string;
     backDefault: string;
     frontDefault: string;
   }[];
 
-  moves: {
+  moves?: {
     name: string;
     description: string;
     id: number;

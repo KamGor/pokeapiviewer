@@ -1,4 +1,4 @@
-export interface pokemonAbility {
+export interface PokemonAbility {
   effect_changes: {}[];
   effect_entries: {
     effect: string;

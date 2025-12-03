@@ -5,8 +5,8 @@ import axios from 'axios';
   providedIn: 'root',
 })
 export class HttpClient {
-  get<pokemonAnswer>(url: string, params?: URLSearchParams) {
-    return axios.get<pokemonAnswer>(url, {
+  get<PokemonAnswer>(url: string, params?: URLSearchParams) {
+    return axios.get<PokemonAnswer>(url, {
       params,
     });
   }

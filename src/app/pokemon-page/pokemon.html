@@ -1,12 +1,14 @@
-<section class="bg-purple-700 w-356 h-179">
+<section class="bg-purple-700 w-356 h-660">
   <div>
     <nav class="flex gap-5">
       <a class="text-orange-700" routerLink="abilities" routerLinkActive="active">Abilities</a>
       <a class="text-orange-700" routerLink="habitats" routerLinkActive="active">Habitats</a>
+      <a class="text-orange-700" routerLink="berries" routerLinkActive="active">Berries</a>
+      <a class="text-orange-700" routerLink="locations" routerLinkActive="active">Locations</a>
     </nav>
   </div>
   @if (isBaseRouteActive) {
-  <div class="text-center text-sky-300">
+  <div class="text-center text-white font-roboto">
     <div class="text-white flex gap-2 ml-165">
       {{ pokemon?.id }}
       <div class="text-transform: uppercase">{{ pokemon?.name }}</div>
@@ -15,11 +17,18 @@
       <img class="size-40" [src]="pokemon?.imgSprite" alt="" />
       <img class="size-40" [src]="pokemon?.imgSpriteBack" alt="" />
     </div>
-    @if (pokemon) { @for(ability of pokemon.abilities; track $index) {
+    <!-- @if (pokemon) { @for(ability of pokemon.abilities; track $index) {
     {{ ability.name }}
     {{ ability.description }}
     {{ ability.isHidden }}
-    }}
+
+    }} -->
+    <p class="text-center text-green-500">About pokemon:</p>
+    @for (form of pokemon?.forms; track $index) { name: {{ form.name }}
+    } @for (move of pokemon?.moves; track $index) {
+    {{ move.name }}
+    {{ move.description }}
+    }
   </div>
   }
 </section>

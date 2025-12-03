@@ -1,4 +1,4 @@
-export interface privateHabitats {
+export interface PrivateHabitats {
   id: number;
   name: string;
 

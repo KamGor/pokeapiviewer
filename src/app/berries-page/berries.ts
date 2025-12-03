@@ -1,22 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { PokeApiClient } from '../poke-api-client';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { PokeApiClient } from '../poke-api-client';
-import { Pokemon } from '../pokemon.interface';
+import { berriesPrivate } from '../api-berries/berries-private';
 
 @Component({
-  selector: 'app-abilities',
-  standalone: true, //Recommended for new Angular components
+  selector: 'app-berries',
   imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule, FormsModule],
-  templateUrl: './abilities.html',
-  styleUrl: './abilities.scss',
+  templateUrl: './berries.html',
+  styleUrl: './berries.scss',
 })
-export class Abilities implements OnInit {
+export class BerriesPage implements OnInit {
   pokemonName: string | null = null;
-  public pokemonData!: Pokemon; // Leave sign '!' if you are suare that variabl will be initialized.
+  public pokemonData!: berriesPrivate; // Leave sign '!' if you are suare that variabl will be initialized.
 
-  pokemon: Pokemon | null = null;
+  public pokemonBerries: berriesPrivate | null = null;
 
   constructor(private route: ActivatedRoute, private pokeApiClient: PokeApiClient) {}
 
@@ -39,12 +38,12 @@ export class Abilities implements OnInit {
     }
 
     try {
-      this.pokemon = await this.pokeApiClient.getPokemon(this.pokemonName);
+      this.pokemonBerries = await this.pokeApiClient.getPokemonBerries(this.pokemonName);
       // If you need to save data in pokemonData.
-      this.pokemonData = this.pokemon as Pokemon;
+      this.pokemonData = this.pokemonBerries as berriesPrivate;
     } catch (error) {
       console.error('Ошибка при получении данных покемона:', error);
-      this.pokemon = null; // Reset if you have an error.
+      this.pokemonBerries = null; // Reset if you have an error.
     }
   }
 }

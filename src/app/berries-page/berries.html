@@ -1,0 +1,21 @@
+<!-- <p class="bg-purple-700 w-179 -mt-170">berries works!</p> -->
+
+<section class="bg-purple-700 w-179 -mt-650">
+  <div>
+    {{ pokemonBerries?.id }}
+    {{ pokemonBerries?.name }}
+    {{ pokemonBerries?.growthTime }}
+    {{ pokemonBerries?.maxHarvest }}
+    {{ pokemonBerries?.naturalGiftPower }}
+    {{ pokemonBerries?.size }}
+    {{ pokemonBerries?.smoothness }}
+    {{ pokemonBerries?.soilDryness }}
+  </div>
+  @if (pokemonBerries) { @for(berries of pokemonBerries.item; track $index) {
+  {{ berries.imgSprite }}
+  {{ berries.description }}
+  }} @else {
+  <span>NIEMA!</span>
+  }
+</section>
+<router-outlet></router-outlet>

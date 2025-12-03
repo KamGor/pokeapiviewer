@@ -1,4 +1,4 @@
-export interface responseHabitats {
+export interface ResponseHabitats {
   id: number;
   name: string;
   names: {

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLinkActive, RouterModule } from '@angular/router';
 import { PokeApiClient } from '../poke-api-client';
-import { privateHabitats } from '../api-habitat/privateHabitats';
+import { PrivateHabitats } from '../api-habitat/privateHabitats';
 
 @Component({
   selector: 'app-habitats',
@@ -11,10 +11,10 @@ import { privateHabitats } from '../api-habitat/privateHabitats';
   templateUrl: './habitats.html',
   styleUrl: './habitats.scss',
 })
-export class Habitats implements OnInit {
+export class HabitatsPage implements OnInit {
   pokemonName: string | null = null;
-  public pokemonData!: privateHabitats; //Leave the '!' if you are sure it will be initialized.
-  pokemonHabitats: privateHabitats | null = null;
+  public pokemonData!: PrivateHabitats; //Leave the '!' if you are sure it will be initialized.
+  PokemonHabitats: PrivateHabitats | null = null;
   constructor(private route: ActivatedRoute, private pokeApiClient: PokeApiClient) {}
 
   ngOnInit(): void {
@@ -35,12 +35,12 @@ export class Habitats implements OnInit {
       return;
     }
     try {
-      this.pokemonHabitats = await this.pokeApiClient.getPokemonHabitats(this.pokemonName);
+      this.PokemonHabitats = await this.pokeApiClient.getPokemonHabitats(this.pokemonName);
       // If you need to save data in pokemonData
-      this.pokemonData = this.pokemonHabitats as privateHabitats;
+      this.pokemonData = this.PokemonHabitats as PrivateHabitats;
     } catch (error) {
       console.error('Ошибка при получении данных покемона:', error);
-      this.pokemonHabitats = null; // Reset if you have an error
+      this.PokemonHabitats = null; // Reset if you have an error
     }
   }
 }

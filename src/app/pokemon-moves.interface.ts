@@ -1,4 +1,4 @@
-export interface pokemonMoves {
+export interface PokemonMoves {
   accuracy: number;
   contest_combos: null;
   contest_effect: null;
