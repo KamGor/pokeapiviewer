@@ -18,13 +18,24 @@ export const routes: Routes = [
     path: 'pokemon/:name',
     children: [
       {
-        path: 'abilities',
-        component: Abilities,
-      },
-      {
         path: 'habitats',
         component: HabitatsPage,
       },
+      {
+        path: 'abilities',
+        component: Abilities,
+      },
+    ],
+  },
+  {
+    path: 'habitats/:name',
+    component: HabitatsPage,
+  },
+  {
+    component: ListPage,
+    title: 'List',
+    path: 'list',
+    children: [
       {
         path: 'berries',
         component: BerriesPage,
@@ -36,28 +47,7 @@ export const routes: Routes = [
     ],
   },
   {
-    component: PokemonPage,
-    path: 'pokemon',
-  },
-  {
-    component: HabitatsPage,
-    path: 'habitats',
-  },
-  {
-    component: ListPage,
-    path: 'list',
-  },
-  {
-    component: BerriesPage,
-    path: 'berries',
-  },
-  {
-    component: Locations,
-    path: 'locations',
-  },
-  {
     component: SearchAutocomplete,
     path: 'SearchAutocomplete',
-    // redirectTo: '',
   },
 ];

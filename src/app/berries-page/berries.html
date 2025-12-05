@@ -1,4 +1,4 @@
-<section class="bg-purple-700 w-179 -mt-650">
+<section class="bg-purple-700 lg:w-1/2 mx-auto">
   <div>
     {{ pokemonBerries?.id }}
     {{ pokemonBerries?.name }}
@@ -9,10 +9,11 @@
     {{ pokemonBerries?.smoothness }}
     {{ pokemonBerries?.soilDryness }}
   </div>
-  @if (pokemonBerries) { @for(berries of pokemonBerries.item; track $index) {
-  {{ berries.imgSprite }}
-  {{ berries.description }}
-  }} @else {
+  @if (pokemonBerries?.item) { @for(berries of pokemonBerries?.item; track $index) {
+  <img src="{{ berries.imgSprite }}" alt="" />
+  <p class="description">{{ berries.description }}</p>
+  <p class="excerpt">{{ berries.excerpt }}</p>
+  } } @else {
   <span
     >Jesli to czytasz to Api nie daje mi zadnej odpowiedzi z serwera, a w konsoli mam error
     404</span

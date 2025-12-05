@@ -26,19 +26,22 @@ export class BerriesPage implements OnInit {
 
       // Call the data fetcher after the name is received.
       if (this.pokemonName) {
-        this.getThePokemon();
+        this.getPokemonBerries();
       }
     });
   }
   //Specifying the return type and error handling
-  async getThePokemon(): Promise<void> {
+  async getPokemonBerries(): Promise<void> {
     if (!this.pokemonName) {
       console.error('Имя покемона не определено.');
       return;
     }
 
+    const _id = await this.pokeApiClient.getPokemonId(this.pokemonName);
+    if (!_id) return;
+
     try {
-      this.pokemonBerries = await this.pokeApiClient.getPokemonBerries(this.pokemonName);
+      this.pokemonBerries = await this.pokeApiClient.getPokemonBerries(_id);
       // If you need to save data in pokemonData.
       this.pokemonData = this.pokemonBerries as berriesPrivate;
     } catch (error) {

@@ -1,46 +1,64 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLinkActive, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PokeApiClient } from '../poke-api-client';
+import { Habitat, HabitatsList } from '../api-habitat/PokemonHabitats';
 import { PrivateHabitats } from '../api-habitat/PrivateHabitats';
 
 @Component({
   selector: 'app-habitats',
-  imports: [CommonModule, RouterLinkActive, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './habitats.html',
   styleUrl: './habitats.scss',
 })
 export class HabitatsPage implements OnInit {
-  pokemonName: string | null = null;
-  public pokemonData!: PrivateHabitats; //Leave the '!' if you are sure it will be initialized.
-  PokemonHabitats: PrivateHabitats | null = null;
-  constructor(private route: ActivatedRoute, private pokeApiClient: PokeApiClient) {}
+  habitatsList: HabitatsList | null = null;
+  habitatData: Habitat | any; // I used any one, because the Habitat interface required so many properties.
+  habitatSpecies: PrivateHabitats | null = null;
 
-  ngOnInit(): void {
-    // More secure access to parent
-    this.route.parent?.paramMap.subscribe((params) => {
-      this.pokemonName = params.get('name');
+  constructor(
+    private router: Router,
+    private pokeApiClient: PokeApiClient,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
-      // Call the data fetcher after the name of pokemon is received
-      if (this.pokemonName) {
-        this.getPokemonHabitats();
-      }
-    });
+  @ViewChildren('habitSection') habitSections!: QueryList<ElementRef>;
+
+  async ngOnInit(): Promise<any> {
+    this.habitatsList = await this.pokeApiClient.getHabitatsList();
+    const habitatName = this.activatedRoute.snapshot.paramMap.get('name');
+    if (habitatName) {
+      this.habitatData = await this.pokeApiClient.getHabitatsData(habitatName);
+      this.habitatSpecies = await this.pokeApiClient.getPokemonHabitat(habitatName);
+    }
   }
 
-  async getPokemonHabitats(): Promise<void> {
-    if (!this.pokemonName) {
-      console.error('Имя покемона не определено.');
-      return;
+  navigateDetails(habitatName: string) {
+    this.router.navigate(['/habitats', habitatName]);
+  }
+  navigatePokemon(targetName: string) {
+    if (!this.habitatSpecies) return;
+    const targetIndex = this.habitatSpecies.pokemonSpecies.findIndex((s) => s.name === targetName);
+
+    if (targetIndex >= 0) {
+      // We get the ElementRef of the desired element by index
+      const elementToScroll = this.habitSections.toArray()[targetIndex];
+
+      if (elementToScroll) {
+        // Call to method scrollIntoView()
+        elementToScroll.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }
+    } else {
+      console.warn(`Element with name "${targetName}" not found`);
     }
-    try {
-      this.PokemonHabitats = await this.pokeApiClient.getPokemonHabitats(this.pokemonName);
-      // If you need to save data in pokemonData
-      this.pokemonData = this.PokemonHabitats as PrivateHabitats;
-    } catch (error) {
-      console.error('Ошибка при получении данных покемона:', error);
-      this.PokemonHabitats = null; // Reset if you have an error
-    }
+  }
+
+  get isList(): boolean {
+    const urlParts = this.router.url.split('/');
+    return urlParts.length > 3;
   }
 }

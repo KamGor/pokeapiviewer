@@ -1,18 +1,58 @@
-<div class="container mx-auto -mt-650">
-  {{ PokemonHabitats?.id }}
-  {{ PokemonHabitats?.name }}
-  @if (PokemonHabitats) {
-  {{ PokemonHabitats.name }}
-  {{ PokemonHabitats.id }}
-  @for(habit of PokemonHabitats.pokemonSpecies; track $index) {
-  {{ habit.baseHappiness }}
-  {{ habit.captureRate }}
-  {{ habit.flavorText }}
-  }} @else {
-  <span
-    >Jesli to czytasz to Api nie daje mi zadnej odpowiedzi z serwera, a w konsoli mam error
-    404</span
-  >
-  }
+<div class="container lg:w-3/4 mx-auto">
+  @if(isList) { @if(habitatsList) {
+  <div class="text-lg mb-2 text-white">Habitats List:</div>
+  <ul>
+    @for (habitat of habitatsList.results; track $index) {
+    <li class="py-1">
+      <a class="cursor-pointer text-white" (click)="navigateDetails(habitat.name)"
+        >Habitat: <span class="font-bold">{{ habitat.name }}</span></a
+      >
+    </li>
+    }
+  </ul>
+  } } @else { @if (habitatData) {
+
+  <div class="grid grid-cols-12">
+    <div class="col-span-3">
+      @if(habitatData.pokemon_species) {
+      <ul>
+        @for(pokemon of habitatData.pokemon_species; track $index) {
+        <li>
+          <a class="cursor-pointer text-white" (click)="navigatePokemon(pokemon.name)"
+            >Pokemon: <span class="font-bold">{{ pokemon.name }}</span></a
+          >
+        </li>
+        }
+      </ul>
+      }
+    </div>
+    <div class="col-span-9">
+      <h2>{{ habitatData?.name }}</h2>
+
+      <p class="id">{{ habitatSpecies?.id }}</p>
+      <p class="name">{{ habitatSpecies?.name }}</p>
+      @if (habitatSpecies) { @if(habitatSpecies.pokemonSpecies) {
+      <div class="py-16">
+        @for(habit of habitatSpecies.pokemonSpecies; track $index) {
+        <div #habitSection [id]="habit.name + '-' + $index" class="py-2">
+          <p id="baseHappiness">{{ habit.baseHappiness }}</p>
+          <p id="captureRate">{{ habit.captureRate }}</p>
+          <ul class="py-2">
+            @for(flavorText of habit.flavorText; track $index) { @if(flavorText.flavorText !== '') {
+            <li class="py-1">- {{ flavorText.flavorText }}</li>
+            } }
+          </ul>
+        </div>
+        }
+      </div>
+      } } @else {
+      <span
+        >Jesli to czytasz to Api nie daje mi zadnej odpowiedzi z serwera, a w konsoli mam error
+        404</span
+      >
+      }
+    </div>
+  </div>
+  } }
+  <router-outlet></router-outlet>
 </div>
-<router-outlet></router-outlet>

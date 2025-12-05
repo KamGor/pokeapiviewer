@@ -1,1 +1,69 @@
-<p class="bg-purple-700 w-179 -mt-170">locations works!</p>
+<div class="grid grid-cols-12 lg:w-4/5 mx-auto px-4 py-4 rounded-md bg-white mb-12 mt-8">
+  <div class="col-span-3">
+    <div
+      class="border-2 rounded-md w-56 ml-0 bg-yellow-300 :first-letter-text-transform: capitalize"
+    >
+      <ul>
+        Locations List: @if (locationList) { @for (location of locationList; track $index) {
+        <li>
+          <a class="cursor-progress" (click)="loadDetails(location.name)"
+            >Location: {{ location.name }}</a
+          >
+        </li>
+        } }
+      </ul>
+      <div class="inline-flex gap-3">
+        <button
+          [disabled]="isPrevDisabled"
+          (click)="paginationHandler('prev')"
+          class="bg-green-400 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+        >
+          Prev
+        </button>
+        <p class="mt-2 animate-ping"><====></p>
+        <button
+          [disabled]="isNextDisabled"
+          (click)="paginationHandler('next')"
+          class="bg-green-500 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-span-9">
+    @if(locationDetails && locationDetails.name) {
+    <h1 class="text-xl">
+      Location name: <span class="font-bold">{{ locationDetails.name }}</span>
+    </h1>
+    <div>
+      <div>
+        Region: <span>{{ locationDetails.region.name }}</span>
+      </div>
+      <div></div>
+    </div>
+    <div>
+      <div>Areas:</div>
+      <ul>
+        @if(locationAreas) { @for(area of locationAreas; track $index) {
+        <li>
+          <span class="block font-black">- {{ area.name }}</span>
+          @if(area.pokemon_encounters) {
+          <span class="block">Pokemon list:</span>
+          <ul class="pl-4">
+            @for(encounter of area.pokemon_encounters; track $index) {
+            <li>
+              --
+              <a (click)="navigateDetails(encounter.pokemon.name)">{{ encounter.pokemon.name }}</a>
+            </li>
+            }
+          </ul>
+          }
+        </li>
+        } }
+      </ul>
+    </div>
+    }
+  </div>
+</div>
+<router-outlet></router-outlet>

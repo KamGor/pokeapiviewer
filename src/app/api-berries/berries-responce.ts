@@ -10,5 +10,5 @@ export interface berriesResponce {
   item: {
     name: string;
     url: string;
-  }[];
+  };
 }

@@ -65,6 +65,10 @@ export class ListPage implements OnInit {
   get isNextDisabled(): boolean {
     return this.nextPokemons === null;
   }
+  get isList(): boolean {
+    const urlParts = this.router.url.split('/');
+    return urlParts.length <= 2;
+  }
 
   navigateDetails(pokemonName: string) {
     this.router.navigate(['/pokemon', pokemonName]);

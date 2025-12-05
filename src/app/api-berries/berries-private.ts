@@ -9,8 +9,7 @@ export interface berriesPrivate {
   soilDryness: number;
   item: {
     imgSprite: string;
-    // effect: string;
-    // shortEffect: string;
     description: string;
+    excerpt: string;
   }[];
 }

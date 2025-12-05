@@ -1,17 +1,21 @@
-import { effect, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from './http-client';
 import { PokemonMoves } from './pokemon-moves.interface';
 import { PokemonForms } from './pokemon-forms.interface';
 import { PokemonAbility } from './pokemon-ability.interface';
 import { PokemonAnswer } from './pokemon-answer.interface';
 import { Pokemon } from './pokemon.interface';
-import { ResponseHabitats } from './api-habitat/ResponceHabitats';
+import {
+  ResponseHabitats,
+  ResponseHabitatsList,
+  ResponseHabitatData,
+} from './api-habitat/ResponceHabitats';
 import { PokemonHabitats } from './api-habitat/PokemonHabitats';
 import { PrivateHabitats } from './api-habitat/PrivateHabitats';
 import { berriesResponce } from './api-berries/berries-responce';
 import { pokemonItems } from './api-berries/pokemon-items';
 import { berriesPrivate } from './api-berries/berries-private';
-import { PokemonListItem, PokemonListResponse } from './list-page/pokemon-list-item';
+import { PokemonListResponse } from './list-page/pokemon-list-item';
 
 @Injectable({
   providedIn: 'root',
@@ -90,12 +94,24 @@ export class PokeApiClient {
     return response.data;
   }
 
-  async getPokemonHabitats(name: string) {
-    const response = await this.httpClient.get<ResponseHabitats>(
+  async getHabitatsList() {
+    const { data } = await this.httpClient.get<ResponseHabitatsList>(
+      `${this.BASE_URL}/pokemon-habitat/`
+    );
+    return data;
+  }
+  async getHabitatsData(name: string) {
+    const { data } = await this.httpClient.get<ResponseHabitatData>(
+      `${this.BASE_URL}/pokemon-habitat/${name}`
+    );
+    return data;
+  }
+  async getPokemonHabitat(name: string) {
+    const { data } = await this.httpClient.get<ResponseHabitats>(
       `https://pokeapi.co/api/v2/pokemon-habitat/${name}`
     );
     const habitatPromises: Promise<PokemonHabitats>[] = [];
-    const data = response.data;
+    // const data = response.data;
     for (const habitat of data.pokemon_species) {
       const habitatPromise = this.httpClient.get<PokemonHabitats>(habitat.url);
       habitatPromises.push(habitatPromise.then((response) => response.data));
@@ -103,32 +119,34 @@ export class PokeApiClient {
 
     const pokemonSpecies = await Promise.all(habitatPromises);
 
+    console.log('pokemonSpecies data: ', pokemonSpecies);
+
     const PokemonHabitats: PrivateHabitats = {
       id: data.id,
       name: data.name,
       pokemonSpecies: pokemonSpecies.map((specie) => {
         return {
+          id: specie.id,
+          name: specie.name,
           baseHappiness: specie.base_happiness,
           captureRate: specie.capture_rate,
-          flavorText: specie.flavor_text,
-          name: specie.language.name,
+          flavorText: specie.flavor_text_entries.map((entry) => {
+            return {
+              flavorText: entry.language.name === 'en' ? entry.flavor_text : '',
+            };
+          }),
         };
       }),
     };
     return PokemonHabitats;
   }
   async getPokemonBerries(name: string) {
-    const response = await this.httpClient.get<berriesResponce>(
+    const { data } = await this.httpClient.get<berriesResponce>(
       `https://pokeapi.co/api/v2/berry/${name}/`
     );
     const berriesPromises: Promise<pokemonItems>[] = [];
-
-    const data = response.data;
-
-    for (const berries of data.item) {
-      const berriesPromise = this.httpClient.get<pokemonItems>(berries.url);
-      berriesPromises.push(berriesPromise.then((response) => response.data));
-    }
+    const berriesPromise = this.httpClient.get<pokemonItems>(data.item.url);
+    berriesPromises.push(berriesPromise.then((response) => response.data));
 
     const item = await Promise.all(berriesPromises);
     const pokemonBerries: berriesPrivate = {
@@ -142,20 +160,66 @@ export class PokeApiClient {
       soilDryness: data.soil_dryness,
 
       item: item.map((entry) => {
+        console.log('entry', entry);
         return {
           imgSprite: entry.sprites.default,
           description:
-            entry.effect_entries.find((entry: any) => entry.language.name === 'en')?.language
-              .name ?? '',
-          effect: entry.effect_entries.map((entry: any) => {
-            return {
-              effect: entry.effect,
-              shortEffect: entry.short_effect,
-            };
-          }),
+            entry.effect_entries.find((aaa: any) => aaa.language.name == 'en')?.effect ?? '',
+          excerpt:
+            entry.effect_entries.find((aaa: any) => aaa.language.name == 'en')?.short_effect ?? '',
         };
       }),
     };
     return pokemonBerries;
+  }
+
+  /**
+   *  Zakomentowalem to dla tego ze zrobilem ostatnia wkladke locations innym sposobem w funkcji
+   * (loadDetails-ktora opisalem co za czym robilem(locations.ts 77 wiersz)) dla osobistego rozwoju.
+   *
+   * @param name
+   * @returns object
+   */
+
+  // async getLocationData(name: string) {
+  //   const { data } = await this.httpClient.get<LocationResponce>(
+  //     `${this.BASE_URL}/location/${name}/`
+  //   );
+  //   const locationsPromises: Promise<PokemonAreas>[] = [];
+  //   or (const location of data.areas) {
+  //     const locationsPromise = this.httpClient.get<PokemonAreas>(form.url);
+  //     locationsPromises.push(locationsPromise.then((response) => response.data));
+  //   }
+  //   const locationsPromise = this.httpClient.get<PokemonAreas>(data.url);
+  //   locationsPromises.push(locationsPromise.then((response) => response.data));
+
+  //   const locations = await Promise.all(locationsPromises);
+  //   const pokemonBerries: LocationsPrivate = {
+  //     id: data.id,
+  //     name: data.name,
+  //     location: locations.map((entry) => {
+  //       return {
+  //         id: entry.id,
+  //         name: entry.name,
+  //         gameIndex: entry.game_index,
+  //         locationName: entry.location.find((aaa: any) => aaa.language.name == 'en')?.name ?? '',
+  //       };
+  //     }),
+  //   };
+  //   return pokemonBerries;
+  // }
+
+  async getLocations(url: string) {
+    const finalUrl = url.includes(this.BASE_URL) ? url : `${this.BASE_URL}location/`;
+    const { data } = await this.httpClient.get<any>(finalUrl);
+    return data;
+  }
+  async getLocationData(name: string) {
+    const { data } = await this.httpClient.get<any>(`${this.BASE_URL}location/${name}`);
+    return data;
+  }
+  async getPokemonId(name: string) {
+    const { data } = await this.httpClient.get<any>(`${this.BASE_URL}pokemon/${name}`);
+    return data.id;
   }
 }
