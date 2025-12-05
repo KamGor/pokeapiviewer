@@ -1,0 +1,23 @@
+<section class="bg-purple-700 lg:w-1/2 mx-auto">
+  <div>
+    {{ pokemonBerries?.id }}
+    {{ pokemonBerries?.name }}
+    {{ pokemonBerries?.growthTime }}
+    {{ pokemonBerries?.maxHarvest }}
+    {{ pokemonBerries?.naturalGiftPower }}
+    {{ pokemonBerries?.size }}
+    {{ pokemonBerries?.smoothness }}
+    {{ pokemonBerries?.soilDryness }}
+  </div>
+  @if (pokemonBerries?.item) { @for(berries of pokemonBerries?.item; track $index) {
+  <img src="{{ berries.imgSprite }}" alt="" />
+  <p class="description">{{ berries.description }}</p>
+  <p class="excerpt">{{ berries.excerpt }}</p>
+  } } @else {
+  <span
+    >Jesli to czytasz to Api nie daje mi zadnej odpowiedzi z serwera, a w konsoli mam error
+    404</span
+  >
+  }
+</section>
+<router-outlet></router-outlet>

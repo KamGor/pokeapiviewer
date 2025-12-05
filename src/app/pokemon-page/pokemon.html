@@ -1,0 +1,29 @@
+<div class="xl:container mx-auto bg-purple-700">
+  <div>
+    <nav class="flex gap-5">
+      <a class="text-orange-700" routerLink="abilities" routerLinkActive="active">Abilities</a>
+      <a class="text-orange-700" routerLink="habitats" routerLinkActive="active">Habitats</a>
+    </nav>
+  </div>
+</div>
+<section class="bg-purple-700 w-full mx-auto py-28">
+  @if (isBaseRouteActive && pokemon) {
+  <div class="text-center text-white font-roboto">
+    <div class="text-white text-center item-center flex gap-2 justify-center">
+      {{ pokemon?.id }}
+      <div class="text-transform: uppercase">{{ pokemon?.name }}</div>
+    </div>
+    <div class="animate-bounce flex gap-30 object-center place-content-center">
+      <img class="size-40" [src]="pokemon?.imgSprite" alt="" />
+      <img class="size-40" [src]="pokemon?.imgSpriteBack" alt="" />
+    </div>
+    <p class="text-center text-green-500">About pokemon:</p>
+    @for (form of pokemon?.forms; track $index) { name: {{ form.name }}
+    } @for (move of pokemon?.moves; track $index) {
+    {{ move.name }}
+    {{ move.description }}
+    }
+  </div>
+  }
+  <router-outlet></router-outlet>
+</section>
