@@ -111,16 +111,12 @@ export class PokeApiClient {
       `https://pokeapi.co/api/v2/pokemon-habitat/${name}`
     );
     const habitatPromises: Promise<PokemonHabitats>[] = [];
-    // const data = response.data;
     for (const habitat of data.pokemon_species) {
       const habitatPromise = this.httpClient.get<PokemonHabitats>(habitat.url);
       habitatPromises.push(habitatPromise.then((response) => response.data));
     }
 
     const pokemonSpecies = await Promise.all(habitatPromises);
-
-    console.log('pokemonSpecies data: ', pokemonSpecies);
-
     const PokemonHabitats: PrivateHabitats = {
       id: data.id,
       name: data.name,
