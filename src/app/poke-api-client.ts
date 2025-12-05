@@ -156,13 +156,13 @@ export class PokeApiClient {
       soilDryness: data.soil_dryness,
 
       item: item.map((entry) => {
-        console.log('entry', entry);
         return {
           imgSprite: entry.sprites.default,
           description:
-            entry.effect_entries.find((aaa: any) => aaa.language.name == 'en')?.effect ?? '',
+            entry.effect_entries.find((child: any) => child.language.name == 'en')?.effect ?? '',
           excerpt:
-            entry.effect_entries.find((aaa: any) => aaa.language.name == 'en')?.short_effect ?? '',
+            entry.effect_entries.find((child: any) => child.language.name == 'en')?.short_effect ??
+            '',
         };
       }),
     };
