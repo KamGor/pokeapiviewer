@@ -1,52 +1,79 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { PokeApiClient } from '../poke-api-client';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { berriesPrivate } from '../api-berries/berries-private';
+import { BerriesPrivate, BerriesListItem } from '../api-berries/berries-private';
 
 @Component({
   selector: 'app-berries',
-  imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterOutlet],
   templateUrl: './berries.html',
   styleUrl: './berries.scss',
 })
 export class BerriesPage implements OnInit {
-  pokemonName: string | null = null;
-  public pokemonData!: berriesPrivate; // Leave sign '!' if you are suare that variabl will be initialized.
+  mainQuery: string = 'https://pokeapi.co/api/v2/berry/';
+  berryName: string | null = null;
+  berriesList: BerriesListItem[] = [];
+  berryDetails: BerriesPrivate = {} as BerriesPrivate;
+  nextBerries: string | null = null;
+  prevBerries: string | null = null;
 
-  public pokemonBerries: berriesPrivate | null = null;
+  constructor(private router: Router, private pokeApiClient: PokeApiClient) {}
 
-  constructor(private route: ActivatedRoute, private pokeApiClient: PokeApiClient) {}
-
-  ngOnInit(): void {
-    // Easiest acces to parent component.
-    this.route.parent?.paramMap.subscribe((params) => {
-      this.pokemonName = params.get('name');
-
-      // Call the data fetcher after the name is received.
-      if (this.pokemonName) {
-        this.getPokemonBerries();
-      }
-    });
+  async ngOnInit(): Promise<void> {
+    this.getBerriesList(this.mainQuery);
   }
-  //Specifying the return type and error handling
-  async getPokemonBerries(): Promise<void> {
-    if (!this.pokemonName) {
-      console.error('Имя покемона не определено.');
-      return;
-    }
 
-    const _id = await this.pokeApiClient.getPokemonId(this.pokemonName);
-    if (!_id) return;
-
+  async getBerriesList(url: string) {
     try {
-      this.pokemonBerries = await this.pokeApiClient.getPokemonBerries(_id);
-      // If you need to save data in pokemonData.
-      this.pokemonData = this.pokemonBerries as berriesPrivate;
+      const data = await this.pokeApiClient.getBerries(url);
+      this.berriesList = data.results;
+      this.nextBerries = data.next;
+      this.prevBerries = data.previous;
     } catch (error) {
-      console.error('Ошибка при получении данных покемона:', error);
-      this.pokemonBerries = null; // Reset if you have an error.
+      console.error('error:', error);
+      this.berriesList = [];
+      this.nextBerries = null;
+      this.prevBerries = null;
     }
+  }
+
+  async paginationHandler(direction: 'prev' | 'next'): Promise<void> {
+    const handler = direction === 'next' ? this.nextBerries : this.prevBerries;
+
+    // if handler not empty
+    if (handler) {
+      await this.getBerriesList(handler);
+    }
+  }
+
+  get isPrevDisabled(): boolean {
+    // button is off (true), if prevBerries === null
+    return this.prevBerries === null;
+  }
+
+  get isNextDisabled(): boolean {
+    return this.nextBerries === null;
+  }
+  get isList(): boolean {
+    const urlParts = this.router.url.split('/');
+    return urlParts.length <= 2;
+  }
+
+  navigateDetails(name: string) {
+    this.router.navigate(['/pokemon', name]);
+  }
+
+  /**
+   * funkjca loadDetails
+   *
+   * Po klikniecui na Berries robimy request do API
+   * loctions i sprawdzamy czy jest w berry object area.
+   * Jezeli jest area to robimy request na API area i zwracamy danne.
+   * @param name
+   */
+  async loadDetails(name: string) {
+    this.berryDetails = await this.pokeApiClient.getPokemonBerries(name);
   }
 }

@@ -1,4 +1,4 @@
-export interface berriesPrivate {
+export interface BerriesPrivate {
   id: number;
   name: string;
   growthTime: number;
@@ -12,4 +12,8 @@ export interface berriesPrivate {
     description: string;
     excerpt: string;
   }[];
+}
+export interface BerriesListItem {
+  name: string;
+  url: string;
 }

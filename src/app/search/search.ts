@@ -7,7 +7,7 @@ import { Pokemon } from '../pokemon.interface';
 
 @Component({
   selector: 'app-search',
-  imports: [FormsModule, CommonModule, RouterOutlet, RouterLink],
+  imports: [FormsModule, CommonModule, RouterOutlet],
   templateUrl: './search.html',
   styleUrl: './search.scss',
 })

@@ -14,7 +14,7 @@ import { PokemonHabitats } from './api-habitat/PokemonHabitats';
 import { PrivateHabitats } from './api-habitat/PrivateHabitats';
 import { berriesResponce } from './api-berries/berries-responce';
 import { pokemonItems } from './api-berries/pokemon-items';
-import { berriesPrivate } from './api-berries/berries-private';
+import { BerriesPrivate } from './api-berries/berries-private';
 import { PokemonListResponse } from './list-page/pokemon-list-item';
 
 @Injectable({
@@ -145,7 +145,7 @@ export class PokeApiClient {
     berriesPromises.push(berriesPromise.then((response) => response.data));
 
     const item = await Promise.all(berriesPromises);
-    const pokemonBerries: berriesPrivate = {
+    const pokemonBerries: BerriesPrivate = {
       id: data.id,
       name: data.name,
       growthTime: data.growth_time,
@@ -159,9 +159,9 @@ export class PokeApiClient {
         return {
           imgSprite: entry.sprites.default,
           description:
-            entry.effect_entries.find((child: any) => child.language.name == 'en')?.effect ?? '',
+            entry.effect_entries.find((enter: any) => enter.language.name == 'en')?.effect ?? '',
           excerpt:
-            entry.effect_entries.find((child: any) => child.language.name == 'en')?.short_effect ??
+            entry.effect_entries.find((enter: any) => enter.language.name == 'en')?.short_effect ??
             '',
         };
       }),
@@ -212,6 +212,15 @@ export class PokeApiClient {
   }
   async getLocationData(name: string) {
     const { data } = await this.httpClient.get<any>(`${this.BASE_URL}location/${name}`);
+    return data;
+  }
+  async getBerries(url: string) {
+    const finalUrl = url.includes(this.BASE_URL) ? url : `${this.BASE_URL}berry/`;
+    const { data } = await this.httpClient.get<any>(finalUrl);
+    return data;
+  }
+  async getBerriesData(name: string) {
+    const { data } = await this.httpClient.get<any>(`${this.BASE_URL}berry/${name}`);
     return data;
   }
   async getPokemonId(name: string) {

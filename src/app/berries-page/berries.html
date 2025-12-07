@@ -1,23 +1,58 @@
-<section class="bg-purple-700 lg:w-1/2 mx-auto">
-  <div>
-    {{ pokemonBerries?.id }}
-    {{ pokemonBerries?.name }}
-    {{ pokemonBerries?.growthTime }}
-    {{ pokemonBerries?.maxHarvest }}
-    {{ pokemonBerries?.naturalGiftPower }}
-    {{ pokemonBerries?.size }}
-    {{ pokemonBerries?.smoothness }}
-    {{ pokemonBerries?.soilDryness }}
+<div class="grid grid-cols-12 lg:w-4/5 mx-auto px-4 py-4 rounded-md bg-white mb-12 mt-8">
+  <div class="col-span-3">
+    <div
+      class="border-2 rounded-md w-56 ml-0 bg-yellow-300 :first-letter-text-transform: capitalize"
+    >
+      <ul>
+        Berries List: @if (berriesList) { @for (berry of berriesList; track $index) {
+        <li>
+          <a class="cursor-progress" (click)="loadDetails(berry.name)">Berry: {{ berry.name }}</a>
+        </li>
+        } }
+      </ul>
+      <div class="inline-flex gap-3">
+        <button
+          [disabled]="isPrevDisabled"
+          (click)="paginationHandler('prev')"
+          class="bg-green-400 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+        >
+          Prev
+        </button>
+        <p class="mt-2 animate-ping"><====></p>
+        <button
+          [disabled]="isNextDisabled"
+          (click)="paginationHandler('next')"
+          class="bg-green-500 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+        >
+          Next
+        </button>
+      </div>
+    </div>
   </div>
-  @if (pokemonBerries?.item) { @for(berries of pokemonBerries?.item; track $index) {
-  <img src="{{ berries.imgSprite }}" alt="" />
-  <p class="description">{{ berries.description }}</p>
-  <p class="excerpt">{{ berries.excerpt }}</p>
-  } } @else {
-  <span
-    >Jesli to czytasz to Api nie daje mi zadnej odpowiedzi z serwera, a w konsoli mam error
-    404</span
-  >
-  }
-</section>
+  <div class="col-span-9">
+    @if(berryDetails && berryDetails.name) {
+    <h1 class="text-xl">
+      Berry name: <span class="font-bold">{{ berryDetails.name }}</span>
+    </h1>
+    <div>
+      <div>Details:</div>
+      <ul>
+        <li>growthTime: {{ berryDetails.growthTime }}</li>
+        <li>maxHarvest: {{ berryDetails.maxHarvest }}</li>
+        <li>naturalGiftPower: {{ berryDetails.naturalGiftPower }}</li>
+        <li>size: {{ berryDetails.size }}</li>
+        <li>smoothness: {{ berryDetails.smoothness }}</li>
+        <li>soilDryness: {{ berryDetails.soilDryness }}</li>
+        @if(berryDetails.item) { @for(item of berryDetails.item; track $index) {
+        <li>
+          <img [src]="item.imgSprite" [alt]="berryDetails.name" />
+          <span class="block">excerpt: {{ item.excerpt }}</span>
+          <span class="block">description: {{ item.description }}</span>
+        </li>
+        } }
+      </ul>
+    </div>
+    }
+  </div>
+</div>
 <router-outlet></router-outlet>
