@@ -1,10 +1,46 @@
 export interface Pokemon {
   id: number;
   name: string;
-  abilities: {
+  weight: number;
+  height: number;
+
+  stats: {
+    effort: number;
+    base_stat: number;
+    stat: {
+      name: string;
+    };
+  }[];
+
+  species?: {
+    // flavor_text: string;
+    description: string;
+  }[];
+
+  abilities?: {
     name: string;
     description: string;
-    isHidden: boolean;
+    isHidden?: boolean;
+  }[];
+
+  types?: {
+    slot: number;
+    type: {
+      name: string;
+      url: string;
+    };
+  }[];
+
+  cries: {
+    latest: string;
+    legacy: string;
+  };
+
+  past_abilities?: {
+    generation: {
+      name: string;
+      url: string;
+    };
   }[];
 
   imgSrc?: string;

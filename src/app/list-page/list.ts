@@ -23,11 +23,7 @@ export class ListPage implements OnInit {
   nextPokemons: string | null = null;
   listPokemons: PokemonListItem[] = [];
   mainQuery: string = 'https://pokeapi.co/api/v2/pokemon/';
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private pokeApiClient: PokeApiClient
-  ) {}
+  constructor(private router: Router, private pokeApiClient: PokeApiClient) {}
 
   async ngOnInit(): Promise<void> {
     // during first start use base URL 'https://pokeapi.co/api/v2/pokemon/'

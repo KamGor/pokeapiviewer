@@ -3,7 +3,7 @@ import { ActivatedRoute, RouterLink, RouterLinkActive, RouterModule } from '@ang
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PokeApiClient } from '../poke-api-client';
-import { Pokemon } from '../pokemon.interface';
+import { ShortAbility, Ability } from '../pokemon-ability.interface';
 
 @Component({
   selector: 'app-abilities',
@@ -13,38 +13,28 @@ import { Pokemon } from '../pokemon.interface';
   styleUrl: './abilities.scss',
 })
 export class Abilities implements OnInit {
-  pokemonName: string | null = null;
-  public pokemonData!: Pokemon; // Leave sign '!' if you are suare that variabl will be initialized.
-
-  pokemon: Pokemon | null = null;
-
+  ability: any | null = null;
   constructor(private route: ActivatedRoute, private pokeApiClient: PokeApiClient) {}
 
   ngOnInit(): void {
-    // Easiest acces to parent component.
-    this.route.parent?.paramMap.subscribe((params) => {
-      this.pokemonName = params.get('name');
-
-      // Call the data fetcher after the name is received.
-      if (this.pokemonName) {
-        this.getThePokemon();
-      }
-    });
+    const abilityName = this.route.snapshot.paramMap.get('name');
+    if (abilityName) {
+      this.getThePokemon(abilityName);
+    }
   }
   //Specifying the return type and error handling
-  async getThePokemon(): Promise<void> {
-    if (!this.pokemonName) {
-      console.error('Имя покемона не определено.');
+  async getThePokemon(name: string): Promise<void> {
+    if (!name) {
+      console.error('No ability name');
       return;
     }
 
     try {
-      this.pokemon = await this.pokeApiClient.getPokemon(this.pokemonName);
-      // If you need to save data in pokemonData.
-      this.pokemonData = this.pokemon as Pokemon;
+      this.ability = await this.pokeApiClient.getAbility(name);
+      console.log(this.ability);
     } catch (error) {
       console.error('Ошибка при получении данных покемона:', error);
-      this.pokemon = null; // Reset if you have an error.
+      this.ability = null; // Reset if you have an error.
     }
   }
 }

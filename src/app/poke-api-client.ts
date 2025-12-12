@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from './http-client';
 import { PokemonMoves } from './pokemon-moves.interface';
 import { PokemonForms } from './pokemon-forms.interface';
-import { PokemonAbility } from './pokemon-ability.interface';
+import { PokemonAbility, ShortAbility } from './pokemon-ability.interface';
 import { PokemonAnswer } from './pokemon-answer.interface';
 import { Pokemon } from './pokemon.interface';
 import {
@@ -16,6 +16,7 @@ import { berriesResponce } from './api-berries/berries-responce';
 import { pokemonItems } from './api-berries/pokemon-items';
 import { BerriesPrivate } from './api-berries/berries-private';
 import { PokemonListResponse } from './list-page/pokemon-list-item';
+import { PokemonSpecies } from './pokemon-species.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,7 @@ export class PokeApiClient {
     const abilityPromises: Promise<PokemonAbility>[] = [];
     const formPromises: Promise<PokemonForms>[] = [];
     const movePromises: Promise<PokemonMoves>[] = [];
+    const speciePromises: Promise<PokemonSpecies>[] = [];
 
     const data = response.data;
     for (const ability of data.abilities) {
@@ -47,9 +49,15 @@ export class PokeApiClient {
       movePromises.push(movePromise.then((response) => response.data));
     }
 
+    // for (const specie of data.species) {
+    //   const speciePromise = this.httpClient.get<PokemonSpecies>(specie.url);
+    //   speciePromises.push(speciePromise.then((response) => response.data));
+    // }
+
     const moves = await Promise.all(movePromises);
     const abilities = await Promise.all(abilityPromises);
     const forms = await Promise.all(formPromises);
+    // const species = await Promise.all(speciePromises);
 
     const pokemon: Pokemon = {
       name: data.name,
@@ -57,6 +65,20 @@ export class PokeApiClient {
       imgSrc: data.sprites.front_default,
       imgSprite: data.sprites.front_default,
       imgSpriteBack: data.sprites.back_default,
+      cries: data.cries,
+      weight: data.weight,
+      height: data.height,
+      types: data.types,
+      stats: data.stats,
+      // species: data.species,
+
+      // species: species.map((specie) => {
+      //   return {
+      //     description:
+      //       specie.flavor_text_entries.find((entry) => entry.language.name === 'en')?.flavor_text ??
+      //       '',
+      //   };
+      // }),
 
       forms: forms.map((form) => {
         return {
@@ -88,21 +110,102 @@ export class PokeApiClient {
     return pokemon;
   }
 
-  public async getPokemonList(url: string): Promise<PokemonListResponse> {
-    const finalUrl = url.includes(this.BASE_URL) ? url : `${this.BASE_URL}pokemon/`;
+  async getPokemonShortData(name: string) {
+    const response = await this.httpClient.get<PokemonAnswer>(`${this.BASE_URL}pokemon/${name}`);
+    const data = response.data;
+    // console.log(data);
+    const abilityPromises: Promise<PokemonAbility>[] = [];
+    const movePromises: Promise<PokemonMoves>[] = [];
+    // const speciePromises: Promise<PokemonSpecies>[] = [];
+
+    for (const ability of data.abilities) {
+      const abilityPromise = this.httpClient.get<PokemonAbility>(ability.ability.url);
+      abilityPromises.push(abilityPromise.then((response) => response.data));
+    }
+
+    for (const move of data.moves) {
+      const movePromise = this.httpClient.get<PokemonMoves>(move.move.url);
+      movePromises.push(movePromise.then((response) => response.data));
+    }
+
+    // for (const specie of data.species) {
+    //   const speciePromise = this.httpClient.get<PokemonSpecies>(specie.url);
+    //   speciePromises.push(speciePromise.then((response) => response.data));
+    // }
+
+    const abilities = await Promise.all(abilityPromises);
+    const moves = await Promise.all(movePromises);
+    // const species = await Promise.all(speciePromises);
+
+    const pokemon: Pokemon = {
+      name: data.name,
+      id: data.id,
+      weight: data.weight,
+      height: data.height,
+      imgSrc: data.sprites.front_default,
+      imgSprite: data.sprites.front_default,
+      imgSpriteBack: data.sprites.back_default,
+      types: data.types,
+      cries: data.cries,
+      stats: data.stats,
+
+      // species: data.species,
+
+      // species: species.map((specie) => {
+      //   return {
+      //     description:
+      //       specie.flavor_text_entries.find((entry) => entry.language.name === 'en')?.flavor_text ??
+      //       '',
+      //   };
+      // }),
+
+      abilities: abilities.map((ability) => {
+        return {
+          description:
+            ability.effect_entries.find((entry) => entry.language.name === 'en')?.effect ?? '',
+          name: ability.names.find((name) => name.language.name === 'en')?.name ?? '',
+        };
+      }),
+
+      moves: moves.map((move) => {
+        return {
+          name: move.names.find((name) => name.language.name === 'en')?.name ?? '',
+          description:
+            move.effect_entries.find((entry) => entry.language.name === 'en')?.effect ?? '',
+
+          id: move.id,
+        };
+      }),
+    };
+    return pokemon;
+  }
+
+  public async getAbility(name: string) {
+    const response = await this.httpClient.get<ShortAbility>(`${this.BASE_URL}ability/${name}`);
+    const data = response.data;
+    const newData = {
+      name: data.name,
+      discription: data.effect_entries.find((entry) => entry.language.name === 'en')?.effect ?? '',
+    };
+    return newData;
+  }
+
+  public async getPokemonList(url: string, limit?: number): Promise<PokemonListResponse> {
+    const _limit = limit ? limit : 20;
+    const finalUrl = url.includes(this.BASE_URL) ? url : `${this.BASE_URL}pokemon/?limit=${_limit}`;
     const response = await this.httpClient.get<PokemonListResponse>(finalUrl);
     return response.data;
   }
 
   async getHabitatsList() {
     const { data } = await this.httpClient.get<ResponseHabitatsList>(
-      `${this.BASE_URL}/pokemon-habitat/`
+      `${this.BASE_URL}pokemon-habitat/`
     );
     return data;
   }
   async getHabitatsData(name: string) {
     const { data } = await this.httpClient.get<ResponseHabitatData>(
-      `${this.BASE_URL}/pokemon-habitat/${name}`
+      `${this.BASE_URL}pokemon-habitat/${name}`
     );
     return data;
   }

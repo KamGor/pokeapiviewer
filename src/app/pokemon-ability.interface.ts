@@ -18,3 +18,22 @@ export interface PokemonAbility {
     name: string;
   }[];
 }
+
+export interface ShortAbility {
+  effect_entries: {
+    effect: string;
+    language: {
+      name: string;
+      url: string;
+    };
+  }[];
+  name: string;
+}
+export interface Ability {
+  effect_entries: {
+    effect?: string;
+    name: string;
+    discription: string;
+  }[];
+  name: string;
+}

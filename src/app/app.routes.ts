@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { Search } from './search/search';
 import { PokemonPage } from './pokemon-page/pokemon';
 import { Abilities } from './abilities/abilities';
 import { HabitatsPage } from './habitats-page/habitats';
@@ -7,12 +6,33 @@ import { ListPage } from './list-page/list';
 import { BerriesPage } from './berries-page/berries';
 import { Locations } from './locations/locations';
 import { SearchAutocomplete } from './search-autocomplete/search-autocomplete';
+import { NotFoundPage } from './notFound-page/not-found-page';
+import { App } from './app';
 
 export const routes: Routes = [
   {
-    component: Search,
-    path: 'search',
+    component: App,
+    path: 'App',
   },
+  {
+    component: SearchAutocomplete,
+    path: 'SearchAutocomplete',
+  },
+  {
+    path: 'habitats/:name',
+    component: HabitatsPage,
+    // children: [
+    //   {
+    //     path: ':name', // Путь относительно родительского: habitats/:name
+    //     component: HabitatsPage,
+    //   },
+    // ],
+  },
+  {
+    path: 'abilities/:name',
+    component: Abilities,
+  },
+
   {
     component: PokemonPage,
     path: 'pokemon/:name',
@@ -21,16 +41,9 @@ export const routes: Routes = [
         path: 'habitats',
         component: HabitatsPage,
       },
-      {
-        path: 'abilities',
-        component: Abilities,
-      },
     ],
   },
-  {
-    path: 'habitats/:name',
-    component: HabitatsPage,
-  },
+
   {
     component: ListPage,
     title: 'List',
@@ -46,8 +59,5 @@ export const routes: Routes = [
       },
     ],
   },
-  {
-    component: SearchAutocomplete,
-    path: 'SearchAutocomplete',
-  },
+  { path: '**', component: NotFoundPage, redirectTo: '' },
 ];

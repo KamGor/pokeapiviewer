@@ -1,39 +1,69 @@
-<div>
-  <div class="relative">
-    <input
-      [(ngModel)]="pokemonName"
-      type="email"
-      class="w-100 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md pr-3 pl-10 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-      placeholder="Enter your text"
-      (keyup)="searchPokemon()"
-      (keyup.enter)="selectPokemon()"
-    />
-    <button
-      class="absolute left-1 top-1 rounded bg-slate-800 p-1.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-      type="button"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 16 16"
-        fill="currentColor"
-        class="w-4 h-4"
+<div class="px-8 md:px-20">
+  <div class="search-wrapper mb-8">
+    <a href="/" class="logo">
+      <img class="max-w-124 h-auto mx-auto w-full" src="/pokedex-logo.svg" />
+    </a>
+    <div class="flex flex-row mt-5 gap-2">
+      <input
+        [(ngModel)]="pokemonName"
+        type="email"
+        class="w-full bg-white placeholder:text-black focus:placeholder:text-transparent text-black text-base border border-black rounded-md px-4 py-2 transition duration-300 ease-in-out focus:outline-none shadow-sm focus:shadow"
+        placeholder="Enter your text"
+        (keyup)="searchPokemon()"
+        (keyup.enter)="selectPokemon()"
+      />
+      <button
+        class="rounded p-1.5 border border-transparent text-center text-sm text-white transition-all bg-[#FF5350] cursor-pointer disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+        type="button"
       >
-        <path
-          fill-rule="evenodd"
-          d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          class="w-10 h-10"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
   </div>
-</div>
-<div>
-  <ul>
+  <div class="list-pokemons grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 container mx-auto">
     @if(pokemonList) { @for(pok of pokemonList; track $index) {
-    <li class="cursor-pointer">
-      <a (click)="navigateDetails(pok.name)">{{ pok.name }}</a>
-    </li>
+    <div class="p-8 bg-[#77B35B] rounded-4xl">
+      <div class="flex flex-row mb-2">
+        <div class="w-3/5">
+          <div class="features flex flex-row gap-2">
+            @for(type of pok.data.types; track $index) {
+            <span class="bg-[#BFC66B] rounded-full px-2 py-1 text-white">{{ type.type.name }}</span>
+            }
+          </div>
+          <h2 class="text-3xl mt-2 text-white font-bold font-bold capitalize">{{ pok.name }}</h2>
+          <div class="text-3xl mt-2 text-white font-bold font-bold capitalize">{{ pok.id }}</div>
+
+          <div class="description">
+            @for(past of pok.data.abilities; track $index) {
+            <span class="rounded-full mt-2 text-sm text-white font-medium">{{
+              past.description
+            }}</span>
+            }
+          </div>
+          <a
+            class="inline-block cursor-pointer bg-[#BFC66B] rounded-full mt-2 px-5 py-2 text-white font-bold"
+            (click)="navigateDetails(pok.name)"
+            >Know More</a
+          >
+        </div>
+        <div class="w-2/5 flex justify-end item-end flex-col">
+          <img class="w-full h-auto" [src]="pok.data.imgSrc" [alt]="pok.name" />
+        </div>
+      </div>
+    </div>
+
     } }
-  </ul>
+  </div>
 </div>
 <router-outlet></router-outlet>

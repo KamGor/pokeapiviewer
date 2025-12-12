@@ -1,15 +1,74 @@
-<div class="">
-  <nav class="text-orange-400 flex gap-4 [&>a]:no-underline">
-    <!-- <a style="text-decoration: none" routerLink="/search">Search</a> -->
-    <!-- <a style="text-decoration: none" routerLink="/pokemon">Pokemon</a> -->
-    <a style="text-decoration: none" routerLink="/SearchAutocomplete">SearchAutocomplete</a>
-    <!-- <a style="text-decoration: none" routerLink="/abilities">Abilities</a>
-    <a style="text-decoration: none" routerLink="/habitats">Habitats</a> -->
-    <a style="text-decoration: none" routerLink="/list">ListPage</a>
-    <!-- <a style="text-decoration: none" routerLink="/berries">Berries</a>
-    <a style="text-decoration: none" routerLink="/locations">Locations</a> -->
-    <!-- All the links I commented on are working, maybe i will be needed this links on future. I only left the two that were required of me. -->
-  </nav>
-</div>
-
+<header class="header py-8">
+  <div class="lg:container mx-auto px-4 md:px-8">
+    <div class="flex justify-between">
+      <a href="/" class="logo">
+        <img src="/pokedex-logo.svg" />
+      </a>
+      <div class="laptop-navigation relative hidden md:block">
+        <nav class="flex flex-row justify-center w-full gap-4 [&>a]:no-underline">
+          <a
+            class="bg-white hover:shadow-[0px_0px_30px_14px] shadow-[0px_0px_30px_7px] hover:shadow-white/50 shadow-white/50 text-rose-500 px-4 py-2 rounded-full text-sm font-medium hover:bg-slate-700 transition duration-700"
+            routerLink="/SearchAutocomplete"
+            (click)="toggleMenu()"
+            >Search Autocomplete</a
+          >
+          <a
+            class="bg-white hover:shadow-[0px_0px_30px_14px] shadow-[0px_0px_30px_7px] hover:shadow-white/50 shadow-white/50 text-rose-500 px-4 py-2 rounded-full text-sm font-medium hover:bg-slate-700 transition duration-700"
+            routerLink="/list"
+            (click)="toggleMenu()"
+            >List Page</a
+          >
+          <a
+            class="bg-white hover:shadow-[0px_0px_30px_14px] shadow-[0px_0px_30px_7px] hover:shadow-white/50 shadow-white/50 text-rose-500 px-4 py-2 rounded-full text-sm font-medium hover:bg-slate-700 transition duration-700"
+            routerLink="/habitats"
+            (click)="toggleMenu()"
+            >Habitats Page</a
+          >
+          <a
+            class="bg-white hover:shadow-[0px_0px_30px_14px] shadow-[0px_0px_30px_7px] hover:shadow-white/50 shadow-white/50 text-rose-500 px-4 py-2 rounded-full text-sm font-medium hover:bg-slate-700 transition duration-700"
+            routerLink="/habitats"
+            (click)="toggleMenu()"
+            >Locations Page</a
+          >
+          <a
+            class="bg-white hover:shadow-[0px_0px_30px_14px] shadow-[0px_0px_30px_7px] hover:shadow-white/50 shadow-white/50 text-rose-500 px-4 py-2 rounded-full text-sm font-medium hover:bg-slate-700 transition duration-700"
+            routerLink="/habitats"
+            (click)="toggleMenu()"
+            >Berries Page</a
+          >
+        </nav>
+      </div>
+      <div class="mobile-navigation relative block md:hidden">
+        <div
+          class="burger-menu relative w-6 cursor-pointer group"
+          [ngClass]="isMenuOpen ? 'opened' : ''"
+          (click)="toggleMenu()"
+        >
+          <div
+            class="w-full h-1 bg-black absolute top-0 right-0 transition duration-300 ease-in-out group-[.opened]:translate-y-2 group-[.opened]:rotate-45"
+          ></div>
+          <div
+            class="w-full h-1 bg-black absolute top-2 right-0 group-[.opened]:opacity-0 transition duration-300 ease-in-out"
+          ></div>
+          <div
+            class="w-full h-1 bg-black absolute top-4 right-0 transition duration-300 ease-in-out group-[.opened]:-translate-y-2 group-[.opened]:-rotate-45"
+          ></div>
+        </div>
+        <div class="absolute right-8 top-0" [ngClass]="isMenuOpen ? 'block' : 'hidden'">
+          <nav class="text-black flex flex-col p-4 bg-white gap-4 [&>a]:no-underline">
+            <a routerLink="/SearchAutocomplete" (click)="toggleMenu()">SearchAutocomplete</a>
+            <a routerLink="/list" (click)="toggleMenu()">List Page</a>
+            <a routerLink="/berries" (click)="toggleMenu()">Berries Page</a>
+            <a routerLink="/locations" (click)="toggleMenu()">Locations Page</a>
+            <a routerLink="/habitats" (click)="toggleMenu()">Habitats Page</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 <router-outlet></router-outlet>
+
+<!-- <main class="xl:container">
+  <div class="w-full lg:w-5xl mx-auto px-4 md:px-8"></div>
+</main> -->

@@ -1,29 +1,148 @@
-<div class="xl:container mx-auto bg-purple-700">
-  <div>
-    <nav class="flex gap-5">
-      <a class="text-orange-700" routerLink="abilities" routerLinkActive="active">Abilities</a>
-      <a class="text-orange-700" routerLink="habitats" routerLinkActive="active">Habitats</a>
-    </nav>
+<div class="lg:container mx-auto px-8 md:px-16 lg:32 mb-16">
+  <div class="bg-[#77B35B] rounded-4xl">
+    <!-- <nav class="flex gap-5 ml-5">
+      <a
+        class="text-black font-bold text-xl px-4 py-2 rounded-t-lg border border-solid border-black border-b-0 bg-white"
+        routerLink="abilities"
+        routerLinkActive="active"
+        >Abilities</a
+      >
+      <a
+        class="text-black font-bold text-xl px-4 py-2 rounded-t-lg border border-solid border-black border-b-0 bg-white"
+        routerLink="habitats"
+        routerLinkActive="active"
+        >Habitats</a
+      >
+    </nav> -->
+    <a
+      class="text-black font-bold text-xl px-4 py-2 rounded-t-lg border border-solid border-black border-b-0 bg-white"
+      routerLink="habitats"
+      routerLinkActive="active"
+      >Habitats</a
+    >
+    @if (!isDataLoaded) {
+    <img src="/preloader.gif" alt="" />
+    }
+    <!-- End preloader -->
+    @if (error) {
+    <p>error</p>
+    } @else {
+    <!-- if not error -->
+    @if (pokemon){
+    <div class="flex flex-col md:flex-row gap-10 p-10">
+      <div class="pokemon-main-image w-full md:w-3/5">
+        <img class="w-full h-auto" [src]="pokemon?.imgSprite" alt="" />
+      </div>
+      <div class="pokemon-info w-full md:w-2/5">
+        <div class="font-bold text-white text-left flex gap-2">#{{ pokemon?.id }}</div>
+        <div class="text-left font-bold text-white item-center flex gap-2 capitalize">
+          {{ pokemon?.name }}
+        </div>
+
+        <div class="types flex gap-2">
+          @for (type of pokemon.types; track $index) {
+          <span
+            class="bg-[#BFC66B] capitalize w-15 h-6 text-sm text-center inline-block rounded-full mt-2 text-white font-bold"
+          >
+            {{ type.type.name }}
+          </span>
+          }
+        </div>
+
+        <div class="pokemon-data flex flex-col gap-2">
+          <div class="short-description">
+            <!-- <div>
+              @if (pokemon.species) { @for (specie of pokemon.species; track $index) {
+              <span>
+                {{ specie.description }}
+              </span>
+              }}
+            </div> -->
+          </div>
+          <div class="grid grid-cols-2 gap-4 text-white">
+            <div class="flex flex-row justify-between p-2 bg-[#BFC66B] rounded-md">
+              <span class="font-bold">Height</span><span>{{ pokemon?.height }} m</span>
+            </div>
+            <div class="flex flex-row justify-between p-2 bg-[#BFC66B] rounded-md">
+              <span class="font-bold">Weight</span><span>{{ pokemon?.weight }} m</span>
+            </div>
+          </div>
+          <div class="stats grid grid-row-3 mt-7">
+            <h1 class="font-bold text-white text-lg mb-4">Stats</h1>
+            <div class="grid grid-cols-2 gap-4 text-white">
+              @if (pokemon.stats) { @for (stat of pokemon.stats;track $index) {
+              <div
+                class="bg-[#FF994D] text-transform: uppercase font-bold justify-between p-3 bg-[#BFC66B] rounded-md"
+              >
+                <span class="text-white">
+                  {{ stat.stat.name }}
+                  {{ stat.base_stat }}
+                </span>
+              </div>
+              } }
+            </div>
+          </div>
+          <a
+            class="font-bold text-white text-lg mt-4"
+            routerLink="abilities"
+            routerLinkActive="active"
+            >Abilities</a
+          >
+          <svg
+            class="ml-3 animate-bounce"
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="40"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="none"
+              stroke="#f0b60e"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 5v14m6-8l-6-6m-6 6l6-6"
+            />
+          </svg>
+          <p class="text-white font-medium mt-1">
+            (Click on Abilities if you want to read more information.)
+          </p>
+          <div class="Abilities grid grid-cols-2 gap-4 text-white">
+            @if (pokemon.abilities) { @for (ability of pokemon.abilities;track $index) {
+            <a
+              (click)="navigateDetails(ability.name)"
+              class="flex flex-row justify-center p-3 bg-[#BFC66B] rounded-md font-medium"
+              >{{ ability.name }}</a
+            >
+            } }
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+    <!-- end @if (pokemon) -->
+
+    }
+
+    <!-- @if (isBaseRouteActive && pokemon) {
+    <div class="text-center text-white font-roboto">
+      <div class="text-white text-center item-center flex gap-2 justify-center">
+        {{ pokemon?.id }}
+        <div class="text-transform: uppercase">{{ pokemon?.name }}</div>
+      </div>
+      <div class="animate-bounce flex gap-30 object-center place-content-center">
+        <img class="size-40" [src]="pokemon?.imgSprite" alt="" />
+        <img class="size-40" [src]="pokemon?.imgSpriteBack" alt="" />
+      </div>
+
+      <p class="text-center text-green-500">About pokemon:</p>
+      @for (form of pokemon?.forms; track $index) { name: {{ form.name }}
+      } @for (move of pokemon?.moves; track $index) {
+      {{ move.name }}
+      {{ move.description }}
+      }
+    </div>
+    } -->
+    <router-outlet></router-outlet>
   </div>
 </div>
-<section class="bg-purple-700 w-full mx-auto py-28">
-  @if (isBaseRouteActive && pokemon) {
-  <div class="text-center text-white font-roboto">
-    <div class="text-white text-center item-center flex gap-2 justify-center">
-      {{ pokemon?.id }}
-      <div class="text-transform: uppercase">{{ pokemon?.name }}</div>
-    </div>
-    <div class="animate-bounce flex gap-30 object-center place-content-center">
-      <img class="size-40" [src]="pokemon?.imgSprite" alt="" />
-      <img class="size-40" [src]="pokemon?.imgSpriteBack" alt="" />
-    </div>
-    <p class="text-center text-green-500">About pokemon:</p>
-    @for (form of pokemon?.forms; track $index) { name: {{ form.name }}
-    } @for (move of pokemon?.moves; track $index) {
-    {{ move.name }}
-    {{ move.description }}
-    }
-  </div>
-  }
-  <router-outlet></router-outlet>
-</section>
