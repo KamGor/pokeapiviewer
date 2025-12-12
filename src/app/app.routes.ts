@@ -11,10 +11,6 @@ import { App } from './app';
 
 export const routes: Routes = [
   {
-    component: App,
-    path: 'App',
-  },
-  {
     component: SearchAutocomplete,
     path: 'SearchAutocomplete',
   },

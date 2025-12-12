@@ -82,14 +82,12 @@
               } }
             </div>
           </div>
-          <a
-            class="font-bold text-white text-lg mt-4"
-            routerLink="abilities"
-            routerLinkActive="active"
-            >Abilities</a
-          >
+          <h2 class="font-bold text-white text-lg mt-4">Abilities</h2>
+          <p class="text-white text-center font-medium mt-1">
+            (Click on types of abilities to read about.)
+          </p>
           <svg
-            class="ml-3 animate-bounce"
+            class="ml-47 mb-2 rotate-180 animate-bounce"
             xmlns="http://www.w3.org/2000/svg"
             width="40"
             height="40"
@@ -104,14 +102,12 @@
               d="M12 5v14m6-8l-6-6m-6 6l6-6"
             />
           </svg>
-          <p class="text-white font-medium mt-1">
-            (Click on Abilities if you want to read more information.)
-          </p>
+
           <div class="Abilities grid grid-cols-2 gap-4 text-white">
             @if (pokemon.abilities) { @for (ability of pokemon.abilities;track $index) {
             <a
               (click)="navigateDetails(ability.name)"
-              class="flex flex-row justify-center p-3 bg-[#BFC66B] rounded-md font-medium"
+              class="cursor-pointer flex flex-row justify-center p-3 bg-[#BFC66B] rounded-md font-medium"
               >{{ ability.name }}</a
             >
             } }
