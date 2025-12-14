@@ -15,29 +15,31 @@ export const routes: Routes = [
     path: 'SearchAutocomplete',
   },
   {
-    path: 'habitats/:name',
+    path: 'habitats',
     component: HabitatsPage,
-    // children: [
-    //   {
-    //     path: ':name', // Путь относительно родительского: habitats/:name
-    //     component: HabitatsPage,
-    //   },
-    // ],
+    children: [
+      {
+        path: ':name',
+        component: HabitatsPage,
+      },
+    ],
   },
   {
     path: 'abilities/:name',
     component: Abilities,
   },
+  {
+    path: 'locations',
+    component: Locations,
+  },
+  {
+    path: 'berries',
+    component: BerriesPage,
+  },
 
   {
     component: PokemonPage,
     path: 'pokemon/:name',
-    children: [
-      {
-        path: 'habitats',
-        component: HabitatsPage,
-      },
-    ],
   },
 
   {

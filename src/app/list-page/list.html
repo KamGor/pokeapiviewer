@@ -12,7 +12,7 @@
     >Locations</a
   >
 </nav>
-<div class="content px-2 py-4 bg-white rounded-lg rounded-tl-none border border-solid border-black">
+<div class="content bg-white rounded-lg rounded-tl-none border border-solid border-black">
   @if(isList) {
   <div class="border-2 rounded-md w-56 ml-0 bg-yellow-300 :first-letter-text-transform: capitalize">
     <ul>
@@ -26,7 +26,7 @@
       </li>
       } }
     </ul>
-    <div class="inline-flex gap-3">
+    <div class="flex justify-between gap-2">
       <button
         [disabled]="isPrevDisabled"
         (click)="paginationHandler('prev')"
@@ -34,7 +34,7 @@
       >
         Prev
       </button>
-      <p class="mt-2 animate-ping"><====></p>
+
       <button
         [disabled]="isNextDisabled"
         (click)="paginationHandler('next')"

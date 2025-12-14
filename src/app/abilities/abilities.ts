@@ -3,11 +3,10 @@ import { ActivatedRoute, RouterLink, RouterLinkActive, RouterModule } from '@ang
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PokeApiClient } from '../poke-api-client';
-import { ShortAbility, Ability } from '../pokemon-ability.interface';
 
 @Component({
   selector: 'app-abilities',
-  standalone: true, //Recommended for new Angular components
+  standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule, FormsModule],
   templateUrl: './abilities.html',
   styleUrl: './abilities.scss',
@@ -18,6 +17,7 @@ export class Abilities implements OnInit {
 
   ngOnInit(): void {
     const abilityName = this.route.snapshot.paramMap.get('name');
+
     if (abilityName) {
       this.getThePokemon(abilityName);
     }
@@ -31,7 +31,6 @@ export class Abilities implements OnInit {
 
     try {
       this.ability = await this.pokeApiClient.getAbility(name);
-      console.log(this.ability);
     } catch (error) {
       console.error('Ошибка при получении данных покемона:', error);
       this.ability = null; // Reset if you have an error.

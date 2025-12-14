@@ -15,7 +15,7 @@ export interface PokemonAnswer {
   species: {
     name: string;
     url: string;
-  }[];
+  };
 
   abilities: {
     is_hidden: boolean;

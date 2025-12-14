@@ -33,26 +33,26 @@
   </div>
   <div class="list-pokemons grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 container mx-auto">
     @if(pokemonList) { @for(pok of pokemonList; track $index) {
-    <div class="p-8 bg-[#77B35B] rounded-4xl">
+    <div class="p-8 bg-white md:bg-[#77B35B] text-black md:text-white rounded-4xl">
       <div class="flex flex-row mb-2">
         <div class="w-3/5">
           <div class="features flex flex-row gap-2">
             @for(type of pok.data.types; track $index) {
-            <span class="bg-[#BFC66B] rounded-full px-2 py-1 text-white">{{ type.type.name }}</span>
-            }
-          </div>
-          <h2 class="text-3xl mt-2 text-white font-bold font-bold capitalize">{{ pok.name }}</h2>
-          <div class="text-3xl mt-2 text-white font-bold font-bold capitalize">{{ pok.id }}</div>
-
-          <div class="description">
-            @for(past of pok.data.abilities; track $index) {
-            <span class="rounded-full mt-2 text-sm text-white font-medium">{{
-              past.description
+            <span class="bg-[#5092B7] md:bg-[#BFC66B] rounded-full px-2 py-1">{{
+              type.type.name
             }}</span>
             }
           </div>
+          <h2 class="text-3xl mt-2 font-bold font-bold capitalize">{{ pok.name }}</h2>
+          <div class="text-3xl mt-2 font-bold font-bold capitalize">{{ pok.id }}</div>
+
+          <div class="description">
+            @for(past of pok.data.abilities; track $index) {
+            <span class="rounded-full mt-2 text-sm font-medium">{{ past.description }}</span>
+            }
+          </div>
           <a
-            class="inline-block cursor-pointer bg-[#BFC66B] rounded-full mt-2 px-5 py-2 text-white font-bold"
+            class="inline-block cursor-pointer bg-[#BFC66B] rounded-lg md:rounded-full mt-2 px-5 py-2 text-white font-bold"
             (click)="navigateDetails(pok.name)"
             >Know More</a
           >

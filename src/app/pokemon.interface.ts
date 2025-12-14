@@ -13,7 +13,6 @@ export interface Pokemon {
   }[];
 
   species?: {
-    // flavor_text: string;
     description: string;
   }[];
 

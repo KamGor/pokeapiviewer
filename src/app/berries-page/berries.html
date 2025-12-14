@@ -1,16 +1,14 @@
-<div class="grid grid-cols-12 lg:w-4/5 mx-auto px-2 py-4 rounded-md bg-white mb-12 mt-8">
-  <div class="col-span-3">
-    <div
-      class="border-2 rounded-md w-56 ml-0 bg-yellow-300 :first-letter-text-transform: capitalize"
-    >
+<div class="grid grid-cols-12 lg:w-4/5 mx-auto rounded-md bg-white mb-12 mt-8">
+  <div class="col-span-12 md:col-span-3">
+    <div class="border-2 p-2 rounded-md bg-yellow-300 :first-letter-text-transform: capitalize">
       <ul>
         Berries List: @if (berriesList) { @for (berry of berriesList; track $index) {
         <li>
-          <a class="cursor-progress" (click)="loadDetails(berry.name)">Berry: {{ berry.name }}</a>
+          <a class="cursor-pointer" (click)="loadDetails(berry.name)">Berry: {{ berry.name }}</a>
         </li>
         } }
       </ul>
-      <div class="inline-flex gap-3">
+      <div class="flex justify-between">
         <button
           [disabled]="isPrevDisabled"
           (click)="paginationHandler('prev')"
@@ -18,7 +16,7 @@
         >
           Prev
         </button>
-        <p class="mt-2 animate-ping"><====></p>
+
         <button
           [disabled]="isNextDisabled"
           (click)="paginationHandler('next')"
@@ -29,7 +27,7 @@
       </div>
     </div>
   </div>
-  <div class="col-span-9">
+  <div class="col-span-12 md:col-span-9 p-2">
     @if(berryDetails && berryDetails.name) {
     <h1 class="text-xl">
       Berry name: <span class="font-bold">{{ berryDetails.name }}</span>

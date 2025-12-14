@@ -16,6 +16,7 @@ export class HabitatsPage implements OnInit {
   habitatsList: HabitatsList | null = null;
   habitatData: Habitat | any; // I used any one, because the Habitat interface required so many properties.
   habitatSpecies: PrivateHabitats | null = null;
+  isList: boolean = false;
 
   constructor(
     private router: Router,
@@ -31,11 +32,15 @@ export class HabitatsPage implements OnInit {
     if (habitatName) {
       this.habitatData = await this.pokeApiClient.getHabitatsData(habitatName);
       this.habitatSpecies = await this.pokeApiClient.getPokemonHabitat(habitatName);
+      this.isList = false;
+    } else {
+      this.isList = true;
     }
   }
 
   navigateDetails(habitatName: string) {
     this.router.navigate(['/habitats', habitatName]);
+    this.isList = false;
   }
   navigatePokemon(targetName: string) {
     if (!this.habitatSpecies) return;
@@ -55,10 +60,5 @@ export class HabitatsPage implements OnInit {
     } else {
       console.warn(`Element with name "${targetName}" not found`);
     }
-  }
-
-  get isList(): boolean {
-    const urlParts = this.router.url.split('/');
-    return urlParts.length > 3;
   }
 }

@@ -49,15 +49,13 @@ export class PokeApiClient {
       movePromises.push(movePromise.then((response) => response.data));
     }
 
-    // for (const specie of data.species) {
-    //   const speciePromise = this.httpClient.get<PokemonSpecies>(specie.url);
-    //   speciePromises.push(speciePromise.then((response) => response.data));
-    // }
+    const speciePromise = this.httpClient.get<PokemonSpecies>(data.species.url);
+    speciePromises.push(speciePromise.then((response) => response.data));
 
     const moves = await Promise.all(movePromises);
     const abilities = await Promise.all(abilityPromises);
     const forms = await Promise.all(formPromises);
-    // const species = await Promise.all(speciePromises);
+    const species = await Promise.all(speciePromises);
 
     const pokemon: Pokemon = {
       name: data.name,
@@ -70,15 +68,14 @@ export class PokeApiClient {
       height: data.height,
       types: data.types,
       stats: data.stats,
-      // species: data.species,
 
-      // species: species.map((specie) => {
-      //   return {
-      //     description:
-      //       specie.flavor_text_entries.find((entry) => entry.language.name === 'en')?.flavor_text ??
-      //       '',
-      //   };
-      // }),
+      species: species.map((specie) => {
+        return {
+          description:
+            specie.flavor_text_entries.find((entry) => entry.language.name === 'en')?.flavor_text ??
+            '',
+        };
+      }),
 
       forms: forms.map((form) => {
         return {
@@ -100,10 +97,11 @@ export class PokeApiClient {
 
       abilities: abilities.map((ability) => {
         return {
+          name: ability.name,
           description:
             ability.effect_entries.find((entry) => entry.language.name === 'en')?.effect ?? '',
           isHidden: false,
-          name: ability.names.find((name) => name.language.name === 'en')?.name ?? '',
+          displayName: ability.names.find((name) => name.language.name === 'en')?.name ?? '',
         };
       }),
     };
@@ -113,10 +111,9 @@ export class PokeApiClient {
   async getPokemonShortData(name: string) {
     const response = await this.httpClient.get<PokemonAnswer>(`${this.BASE_URL}pokemon/${name}`);
     const data = response.data;
-    // console.log(data);
+
     const abilityPromises: Promise<PokemonAbility>[] = [];
     const movePromises: Promise<PokemonMoves>[] = [];
-    // const speciePromises: Promise<PokemonSpecies>[] = [];
 
     for (const ability of data.abilities) {
       const abilityPromise = this.httpClient.get<PokemonAbility>(ability.ability.url);
@@ -128,14 +125,8 @@ export class PokeApiClient {
       movePromises.push(movePromise.then((response) => response.data));
     }
 
-    // for (const specie of data.species) {
-    //   const speciePromise = this.httpClient.get<PokemonSpecies>(specie.url);
-    //   speciePromises.push(speciePromise.then((response) => response.data));
-    // }
-
     const abilities = await Promise.all(abilityPromises);
     const moves = await Promise.all(movePromises);
-    // const species = await Promise.all(speciePromises);
 
     const pokemon: Pokemon = {
       name: data.name,
@@ -148,16 +139,6 @@ export class PokeApiClient {
       types: data.types,
       cries: data.cries,
       stats: data.stats,
-
-      // species: data.species,
-
-      // species: species.map((specie) => {
-      //   return {
-      //     description:
-      //       specie.flavor_text_entries.find((entry) => entry.language.name === 'en')?.flavor_text ??
-      //       '',
-      //   };
-      // }),
 
       abilities: abilities.map((ability) => {
         return {
@@ -271,42 +252,6 @@ export class PokeApiClient {
     };
     return pokemonBerries;
   }
-
-  /**
-   *  Zakomentowalem to dla tego ze zrobilem ostatnia wkladke locations innym sposobem w funkcji
-   * (loadDetails-ktora opisalem co za czym robilem(locations.ts 77 wiersz)) dla osobistego rozwoju.
-   *
-   * @param name
-   * @returns object
-   */
-
-  // async getLocationData(name: string) {
-  //   const { data } = await this.httpClient.get<LocationResponce>(
-  //     `${this.BASE_URL}/location/${name}/`
-  //   );
-  //   const locationsPromises: Promise<PokemonAreas>[] = [];
-  //   or (const location of data.areas) {
-  //     const locationsPromise = this.httpClient.get<PokemonAreas>(form.url);
-  //     locationsPromises.push(locationsPromise.then((response) => response.data));
-  //   }
-  //   const locationsPromise = this.httpClient.get<PokemonAreas>(data.url);
-  //   locationsPromises.push(locationsPromise.then((response) => response.data));
-
-  //   const locations = await Promise.all(locationsPromises);
-  //   const pokemonBerries: LocationsPrivate = {
-  //     id: data.id,
-  //     name: data.name,
-  //     location: locations.map((entry) => {
-  //       return {
-  //         id: entry.id,
-  //         name: entry.name,
-  //         gameIndex: entry.game_index,
-  //         locationName: entry.location.find((aaa: any) => aaa.language.name == 'en')?.name ?? '',
-  //       };
-  //     }),
-  //   };
-  //   return pokemonBerries;
-  // }
 
   async getLocations(url: string) {
     const finalUrl = url.includes(this.BASE_URL) ? url : `${this.BASE_URL}location/`;

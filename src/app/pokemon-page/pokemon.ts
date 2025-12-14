@@ -54,7 +54,6 @@ export class PokemonPage implements OnInit {
   }
 
   navigateDetails(abilityName: string) {
-    console.log(abilityName);
     this.router.navigate(['/abilities', abilityName]);
   }
 }
