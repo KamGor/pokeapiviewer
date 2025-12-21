@@ -1,0 +1,59 @@
+<div class="grid grid-cols-12">
+  <div class="card flex flex-col col-span-3">
+    @for (item of listItems; track item.name) {
+    <a (click)="showDetails(item.url)">{{ item.name }}</a>
+    }
+  </div>
+  <div class="col-span-9">
+    @if (ItemData) { @for (item of ItemData.effect_entries; track $index) {
+    <div>
+      <p>{{ item.effect }}</p>
+      <p>{{ item.short_effect }}</p>
+    </div>
+    }
+    <div>
+      <div class="flex gap-4">
+        <button>Atributes</button>
+        <button (click)="showCategory(ItemData.category.url)">Category</button>
+        <button (click)="gotoPage('/fling-effects-page')">Fling Effect</button>
+      </div>
+      <div>
+        <div id="tab1" class="tabcontent">
+          <div class="grid grid-cols-12">
+            <div class="col-span-3">
+              @for (item of ItemData.attributes; track $index) {
+              <a class="block" (click)="showAtributes(item.url)">{{
+                item.name
+              }}</a>
+              }
+            </div>
+            <div class="col-span-9">
+              @if (itemAtributes) {
+              <div>
+                <p>{{ itemAtributes.name }}</p>
+                @for(item of itemAtributes.descriptions; track $index) {
+                <p>{{ item.description }}</p>
+                }
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+        <div id="tab2" class="tabcontent">
+          <div class="grid grid-cols-12">
+            @if (itemCategories) {
+            <div>
+              <p>{{ itemCategories.name }}</p>
+              @for(item of itemCategories.items; track $index) {
+              <a (click)="showDetails(item.url)">{{ item.name }}</a>
+              }
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+<a routerLink="/"> go to home-page </a>

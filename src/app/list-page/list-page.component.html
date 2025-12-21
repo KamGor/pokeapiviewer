@@ -1,0 +1,40 @@
+@for (pokemon of listPokemons; track pokemon.name) {
+<div class="card">
+  @if (pokemon.sprites) {
+  <img [src]="pokemon.sprites.front_default" alt="{{ pokemon.name }}" />
+  }
+  <a (click)="showDetails(pokemon.url)">{{ pokemon.name }}</a>
+</div>
+} @if (pokemonData) {
+<div>
+  <p>{{ pokemonData.name }}</p>
+  <img [src]="pokemonData?.sprites?.front_default" alt="" />
+</div>
+}
+<!-- @for(item of listPokemons; track $index) {
+<div>
+  <p>{{ item.name }}</p>
+  <div>
+    <img [src]="item?.sprites?.front_default" alt="" />
+  </div>
+</div>
+} -->
+
+<div>
+  <button
+    [disabled]="isPrevDisabled"
+    (click)="paginationHandler('prev')"
+    class="bg-green-400 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+  >
+    Prev
+  </button>
+
+  <button
+    [disabled]="isNextDisabled"
+    (click)="paginationHandler('next')"
+    class="bg-green-500 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+  >
+    Next
+  </button>
+</div>
+<router-outlet></router-outlet>

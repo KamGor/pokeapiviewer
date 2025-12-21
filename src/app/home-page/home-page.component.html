@@ -1,0 +1,70 @@
+<div class="container mx-auto py-4 px-8">
+  <input
+    type="text"
+    class="w-full bg-white placeholder:text-gray-500 focus:placeholder:text-transparent text-black text-base border border-black rounded-md px-4 py-2 transition duration-300 ease-in-out focus:outline-none shadow-sm focus:shadow mb-6"
+    placeholder="Search Pokemon..."
+    [(ngModel)]="searchName"
+    (keyup)="searchPokemon()"
+  />
+
+  <div class="flex flex-col gap-4">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+    >
+      @if (pokemonListResponse && !loading) { @for (item of pokemonListResponse;
+      track item.id) {
+      <div
+        class="border rounded-lg p-4 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow bg-white"
+      >
+        <span class="text-xs text-gray-400 self-start">#{{ item.id }}</span>
+        <img
+          [src]="item.sprites.front_default"
+          [alt]="item.name"
+          class="w-24 h-24"
+        />
+        <p class="font-bold capitalize mt-2">{{ item.name }}</p>
+      </div>
+      } } @else if (loading) {
+      <div class="col-span-4 text-center py-10">
+        <p class="text-xl animate-pulse">Loading Pokemons...</p>
+      </div>
+      }
+    </div>
+  </div>
+
+  @if (totalPages > 1) {
+  <div class="flex justify-center items-center space-x-1 my-12">
+    <button
+      (click)="goToPage(currentPageNumber - 1)"
+      [disabled]="currentPageNumber === 1"
+      class="px-3 py-1 rounded border disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 transition-all"
+    >
+      &lt;
+    </button>
+
+    @for (page of visiblePages; track $index) { @if (page === '...') {
+    <span class="px-3 py-1 text-gray-500">...</span>
+    } @else {
+    <button
+      (click)="goToPage(page)"
+      [class.bg-blue-600]="page === currentPageNumber"
+      [class.text-white]="page === currentPageNumber"
+      [class.border-blue-600]="page === currentPageNumber"
+      class="px-4 py-1 rounded border hover:bg-blue-50 transition-colors font-medium"
+    >
+      {{ page }}
+    </button>
+    } }
+
+    <button
+      (click)="goToPage(currentPageNumber + 1)"
+      [disabled]="currentPageNumber === totalPages"
+      class="px-3 py-1 rounded border disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 transition-all"
+    >
+      &gt;
+    </button>
+  </div>
+  }
+</div>
+
+<router-outlet />
