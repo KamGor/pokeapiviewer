@@ -1,4 +1,4 @@
-export interface LocationResponce {
+export interface LocationResponse {
   id: number;
   name: string;
 

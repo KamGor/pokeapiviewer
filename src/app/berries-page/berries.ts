@@ -3,7 +3,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { PokeApiClient } from '../poke-api-client';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { BerriesPrivate, BerriesListItem } from '../api-berries/berries-private';
+import { Berry, BerriesListItem } from '../api-berries/berries-private';
 
 @Component({
   selector: 'app-berries',
@@ -12,22 +12,22 @@ import { BerriesPrivate, BerriesListItem } from '../api-berries/berries-private'
   styleUrl: './berries.scss',
 })
 export class BerriesPage implements OnInit {
-  mainQuery: string = 'https://pokeapi.co/api/v2/berry/';
   berryName: string | null = null;
   berriesList: BerriesListItem[] = [];
-  berryDetails: BerriesPrivate = {} as BerriesPrivate;
+  berryDetails: Berry = {} as Berry;
   nextBerries: string | null = null;
   prevBerries: string | null = null;
 
   constructor(private router: Router, private pokeApiClient: PokeApiClient) {}
 
   async ngOnInit(): Promise<void> {
-    this.getBerriesList(this.mainQuery);
+    this.getBerriesList();
   }
 
-  async getBerriesList(url: string) {
+  async getBerriesList(limit?: string, offset?: string): Promise<void> {
     try {
-      const data = await this.pokeApiClient.getBerries(url);
+      const data = await this.pokeApiClient.getBerries(limit, offset);
+      console.log('data', data);
       this.berriesList = data.results;
       this.nextBerries = data.next;
       this.prevBerries = data.previous;
@@ -44,7 +44,11 @@ export class BerriesPage implements OnInit {
 
     // if handler not empty
     if (handler) {
-      await this.getBerriesList(handler);
+      const url = new URL(handler);
+      const limit = url.searchParams.get('limit') ?? '';
+      console.log('limit', limit);
+      const offset = url.searchParams.get('offset') ?? '';
+      await this.getBerriesList(limit, offset);
     }
   }
 

@@ -1,4 +1,4 @@
-export interface PrivateHabitats {
+export interface PrivateHabitat {
   id: number;
   name: string;
   pokemonSpecies: {

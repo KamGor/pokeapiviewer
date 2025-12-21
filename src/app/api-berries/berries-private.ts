@@ -1,4 +1,4 @@
-export interface BerriesPrivate {
+export interface Berry {
   id: number;
   name: string;
   growthTime: number;

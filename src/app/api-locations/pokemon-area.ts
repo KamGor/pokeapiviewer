@@ -1,4 +1,4 @@
-export interface PokemonAreas {
+export interface PokemonAreaResponse {
   name: string;
   id: number;
   game_index: number;

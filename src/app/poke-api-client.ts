@@ -6,15 +6,15 @@ import { PokemonAbility, ShortAbility } from './pokemon-ability.interface';
 import { PokemonAnswer } from './pokemon-answer.interface';
 import { Pokemon } from './pokemon.interface';
 import {
-  ResponseHabitats,
+  ResponseHabitat,
   ResponseHabitatsList,
   ResponseHabitatData,
 } from './api-habitat/ResponceHabitats';
-import { PokemonHabitats } from './api-habitat/PokemonHabitats';
-import { PrivateHabitats } from './api-habitat/PrivateHabitats';
-import { berriesResponce } from './api-berries/berries-responce';
-import { pokemonItems } from './api-berries/pokemon-items';
-import { BerriesPrivate } from './api-berries/berries-private';
+import { PokemonHabitat } from './api-habitat/PokemonHabitats';
+import { PrivateHabitat } from './api-habitat/PrivateHabitats';
+import { BerriesResponse } from './api-berries/berries-response';
+import { pokemonItem } from './api-berries/pokemon-items';
+import { Berry } from './api-berries/berries-private';
 import { PokemonListResponse } from './list-page/pokemon-list-item';
 import { PokemonSpecies } from './pokemon-species.interface';
 
@@ -171,10 +171,11 @@ export class PokeApiClient {
     return newData;
   }
 
-  public async getPokemonList(url: string, limit?: number): Promise<PokemonListResponse> {
-    const _limit = limit ? limit : 20;
-    const finalUrl = url.includes(this.BASE_URL) ? url : `${this.BASE_URL}pokemon/?limit=${_limit}`;
-    const response = await this.httpClient.get<PokemonListResponse>(finalUrl);
+  public async getPokemonList(limit?: string, offset?: string): Promise<PokemonListResponse> {
+    const _limit = '?limit=' + (limit ? limit : '20');
+    const _offset = '&offset=' + (offset ? offset : '0');
+    const url = `${this.BASE_URL}pokemon/${_limit}${_offset}`;
+    const response = await this.httpClient.get<PokemonListResponse>(url);
     return response.data;
   }
 
@@ -191,17 +192,17 @@ export class PokeApiClient {
     return data;
   }
   async getPokemonHabitat(name: string) {
-    const { data } = await this.httpClient.get<ResponseHabitats>(
+    const { data } = await this.httpClient.get<ResponseHabitat>(
       `https://pokeapi.co/api/v2/pokemon-habitat/${name}`
     );
-    const habitatPromises: Promise<PokemonHabitats>[] = [];
+    const habitatPromises: Promise<PokemonHabitat>[] = [];
     for (const habitat of data.pokemon_species) {
-      const habitatPromise = this.httpClient.get<PokemonHabitats>(habitat.url);
+      const habitatPromise = this.httpClient.get<PokemonHabitat>(habitat.url);
       habitatPromises.push(habitatPromise.then((response) => response.data));
     }
 
     const pokemonSpecies = await Promise.all(habitatPromises);
-    const PokemonHabitats: PrivateHabitats = {
+    const PokemonHabitats: PrivateHabitat = {
       id: data.id,
       name: data.name,
       pokemonSpecies: pokemonSpecies.map((specie) => {
@@ -221,15 +222,15 @@ export class PokeApiClient {
     return PokemonHabitats;
   }
   async getPokemonBerries(name: string) {
-    const { data } = await this.httpClient.get<berriesResponce>(
+    const { data } = await this.httpClient.get<BerriesResponse>(
       `https://pokeapi.co/api/v2/berry/${name}/`
     );
-    const berriesPromises: Promise<pokemonItems>[] = [];
-    const berriesPromise = this.httpClient.get<pokemonItems>(data.item.url);
+    const berriesPromises: Promise<pokemonItem>[] = [];
+    const berriesPromise = this.httpClient.get<pokemonItem>(data.item.url);
     berriesPromises.push(berriesPromise.then((response) => response.data));
 
     const item = await Promise.all(berriesPromises);
-    const pokemonBerries: BerriesPrivate = {
+    const pokemonBerries: Berry = {
       id: data.id,
       name: data.name,
       growthTime: data.growth_time,
@@ -253,18 +254,26 @@ export class PokeApiClient {
     return pokemonBerries;
   }
 
-  async getLocations(url: string) {
-    const finalUrl = url.includes(this.BASE_URL) ? url : `${this.BASE_URL}location/`;
-    const { data } = await this.httpClient.get<any>(finalUrl);
+  async getLocations(limit?: string, offset?: string) {
+    const _limit = '?limit=' + (limit ? limit : '20');
+    const _offset = '&offset=' + (offset ? offset : '0');
+    const url = `${this.BASE_URL}location/${_limit}${_offset}`;
+    const { data } = await this.httpClient.get<any>(url);
     return data;
   }
   async getLocationData(name: string) {
     const { data } = await this.httpClient.get<any>(`${this.BASE_URL}location/${name}`);
     return data;
   }
-  async getBerries(url: string) {
-    const finalUrl = url.includes(this.BASE_URL) ? url : `${this.BASE_URL}berry/`;
-    const { data } = await this.httpClient.get<any>(finalUrl);
+  async getAreaData(name: string) {
+    const { data } = await this.httpClient.get<any>(`${this.BASE_URL}location-area/${name}`);
+    return data;
+  }
+  async getBerries(limit?: string, offset?: string) {
+    const _limit = '?limit=' + (limit ? limit : '20');
+    const _offset = '&offset=' + (offset ? offset : '0');
+    const url = `${this.BASE_URL}berry/${_limit}${_offset}`;
+    const { data } = await this.httpClient.get<any>(url);
     return data;
   }
   async getBerriesData(name: string) {

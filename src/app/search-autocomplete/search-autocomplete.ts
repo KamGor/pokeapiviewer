@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { PokeApiClient } from '../poke-api-client';
+import { FilteredPokemonList, PokemonList } from '../pokemon.interface';
 
 @Component({
   selector: 'app-search-autocomplete',
@@ -13,8 +14,8 @@ import { PokeApiClient } from '../poke-api-client';
 })
 export class SearchAutocomplete implements OnInit {
   pokemonName: string = '';
-  allPokemons: any[] | null = null;
-  pokemonList: any[] | null = null;
+  allPokemons: PokemonList[] | null = null;
+  pokemonList: FilteredPokemonList[] | null = null;
 
   constructor(private router: Router, private pokeApiClient: PokeApiClient) {}
 
@@ -49,7 +50,7 @@ export class SearchAutocomplete implements OnInit {
     }
   }
   async getPokemonsData() {
-    const response = await this.pokeApiClient.getPokemonList('', 1328);
+    const response = await this.pokeApiClient.getPokemonList('1500');
     this.allPokemons = response.results;
   }
 

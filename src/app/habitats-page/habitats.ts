@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PokeApiClient } from '../poke-api-client';
 import { Habitat, HabitatsList } from '../api-habitat/PokemonHabitats';
-import { PrivateHabitats } from '../api-habitat/PrivateHabitats';
+import { PrivateHabitat } from '../api-habitat/PrivateHabitats';
 
 @Component({
   selector: 'app-habitats',
@@ -15,7 +15,7 @@ import { PrivateHabitats } from '../api-habitat/PrivateHabitats';
 export class HabitatsPage implements OnInit {
   habitatsList: HabitatsList | null = null;
   habitatData: Habitat | any; // I used any one, because the Habitat interface required so many properties.
-  habitatSpecies: PrivateHabitats | null = null;
+  habitatSpecies: PrivateHabitat | null = null;
   isList: boolean = false;
 
   constructor(

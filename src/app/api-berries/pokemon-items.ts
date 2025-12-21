@@ -1,4 +1,4 @@
-export interface pokemonItems {
+export interface pokemonItem {
   effect_entries: {
     effect: string;
     short_effect: string;

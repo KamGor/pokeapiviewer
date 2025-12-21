@@ -1,4 +1,4 @@
-export interface PokemonHabitats {
+export interface PokemonHabitat {
   id: number;
   name: string;
   base_happiness: number;

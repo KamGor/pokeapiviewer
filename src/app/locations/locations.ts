@@ -12,7 +12,6 @@ import { LocationsListItem, LocationsDetails, locationAreas } from './locations-
   styleUrl: './locations.scss',
 })
 export class Locations implements OnInit {
-  mainQuery: string = 'https://pokeapi.co/api/v2/location/';
   locationName: string | null = null;
   locationList: LocationsListItem[] = [];
   locationDetails: LocationsDetails = {} as LocationsDetails;
@@ -23,12 +22,12 @@ export class Locations implements OnInit {
   constructor(private router: Router, private pokeApiClient: PokeApiClient) {}
 
   async ngOnInit(): Promise<void> {
-    this.getLocationList(this.mainQuery);
+    this.getLocationList();
   }
 
-  async getLocationList(url: string) {
+  async getLocationList(limit?: string, offset?: string): Promise<void> {
     try {
-      const data = await this.pokeApiClient.getLocations(url);
+      const data = await this.pokeApiClient.getLocations(limit, offset);
       this.locationList = data.results;
       this.nextLocations = data.next;
       this.prevLocations = data.previous;
@@ -45,7 +44,11 @@ export class Locations implements OnInit {
 
     // if handler not empty
     if (handler) {
-      await this.getLocationList(handler);
+      const url = new URL(handler);
+      const limit = url.searchParams.get('limit') ?? '';
+      const offset = url.searchParams.get('offset') ?? '';
+
+      await this.getLocationList(limit, offset);
     }
   }
 
@@ -79,7 +82,7 @@ export class Locations implements OnInit {
     const areasList = [];
     if (this.locationDetails.areas.length > 0) {
       for (const area of this.locationDetails.areas) {
-        const locationArea = await this.pokeApiClient.getLocations(area.url);
+        const locationArea = await this.pokeApiClient.getAreaData(area.name);
         areasList.push(locationArea);
       }
     }

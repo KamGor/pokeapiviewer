@@ -1,4 +1,4 @@
-export interface berriesResponce {
+export interface BerriesResponse {
   id: number;
   name: string;
   growth_time: number;

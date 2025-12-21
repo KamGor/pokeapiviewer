@@ -22,17 +22,15 @@ export class ListPage implements OnInit {
   prevPokemons: string | null = null;
   nextPokemons: string | null = null;
   listPokemons: PokemonListItem[] = [];
-  mainQuery: string = 'https://pokeapi.co/api/v2/pokemon/';
   constructor(private router: Router, private pokeApiClient: PokeApiClient) {}
 
   async ngOnInit(): Promise<void> {
-    // during first start use base URL 'https://pokeapi.co/api/v2/pokemon/'
-    await this.getPokemonList(this.mainQuery);
+    await this.getPokemonList();
   }
 
-  async getPokemonList(url: string): Promise<void> {
+  async getPokemonList(limit?: string | undefined, offset?: string | undefined): Promise<void> {
     try {
-      const data = await this.pokeApiClient.getPokemonList(url);
+      const data = await this.pokeApiClient.getPokemonList(limit, offset);
       this.listPokemons = data.results;
       this.nextPokemons = data.next;
       this.prevPokemons = data.previous;
@@ -47,9 +45,11 @@ export class ListPage implements OnInit {
   async paginationHandler(direction: 'prev' | 'next'): Promise<void> {
     const handler = direction === 'next' ? this.nextPokemons : this.prevPokemons;
 
-    // if handler not empty
     if (handler) {
-      await this.getPokemonList(handler);
+      const url = new URL(handler);
+      const limit = url.searchParams.get('limit') ?? '';
+      const offset = url.searchParams.get('offset') ?? '';
+      await this.getPokemonList(limit, offset);
     }
   }
 

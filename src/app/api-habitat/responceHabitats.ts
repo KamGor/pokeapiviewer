@@ -1,4 +1,4 @@
-export interface ResponseHabitats {
+export interface ResponseHabitat {
   id: number;
   name: string;
   base_happiness: number;

@@ -12,18 +12,18 @@ import { PokeApiClient } from '../poke-api-client';
   styleUrl: './abilities.scss',
 })
 export class Abilities implements OnInit {
-  ability: any | null = null;
+  ability: { name: string; discription: string } | null = null;
   constructor(private route: ActivatedRoute, private pokeApiClient: PokeApiClient) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const abilityName = this.route.snapshot.paramMap.get('name');
 
     if (abilityName) {
-      this.getThePokemon(abilityName);
+      await this.getThePokemon(abilityName);
     }
   }
   //Specifying the return type and error handling
-  async getThePokemon(name: string): Promise<void> {
+  async getThePokemon(name: string | undefined): Promise<void> {
     if (!name) {
       console.error('No ability name');
       return;
@@ -32,7 +32,7 @@ export class Abilities implements OnInit {
     try {
       this.ability = await this.pokeApiClient.getAbility(name);
     } catch (error) {
-      console.error('Ошибка при получении данных покемона:', error);
+      console.error('error', error);
       this.ability = null; // Reset if you have an error.
     }
   }

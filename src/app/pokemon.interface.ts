@@ -58,3 +58,14 @@ export interface Pokemon {
     id: number;
   }[];
 }
+
+export interface PokemonList {
+  name: string;
+  url: string;
+}
+
+export interface FilteredPokemonList {
+  name: string;
+  url: string;
+  data: Pokemon;
+}
