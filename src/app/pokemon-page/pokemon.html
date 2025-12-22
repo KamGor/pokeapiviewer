@@ -17,6 +17,12 @@
         <div class="font-bold text-white text-left flex gap-2">#{{ pokemon?.id }}</div>
         <div class="text-left font-bold text-white item-center flex gap-2 capitalize">
           {{ pokemon?.name }}
+          <button (click)="playCry(pokemon.cries.latest)" class="audio-btn">
+            🔊 Play pokemon voice
+          </button>
+          <button (click)="playCry(pokemon.cries.legacy)" class="audio-btn">
+            🔊 Play pokemon voice
+          </button>
         </div>
 
         <div class="types flex gap-2">

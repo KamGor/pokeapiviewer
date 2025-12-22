@@ -34,6 +34,7 @@ export class PokemonPage implements OnInit {
       const pokemonId = this.activatedRoute.snapshot.paramMap.get('name');
       if (pokemonId === null) return;
       this.pokemon = await this.pokeApiClient.getPokemon(pokemonId);
+      console.log('pokemon', this.pokemon);
     } catch (error) {
       if (error) {
         this.error = true;
@@ -55,5 +56,15 @@ export class PokemonPage implements OnInit {
 
   navigateDetails(abilityName: string) {
     this.router.navigate(['/abilities', abilityName]);
+  }
+
+  playCry(audioUrl: string | undefined) {
+    if (!audioUrl) return;
+
+    const audio = new Audio(audioUrl);
+    audio.load(); // Предзагрузка
+    audio.play().catch((error) => {
+      console.error('Ошибка воспроизведения:', error);
+    });
   }
 }

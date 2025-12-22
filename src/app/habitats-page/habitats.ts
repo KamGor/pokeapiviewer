@@ -3,8 +3,8 @@ import { Component, OnInit, QueryList, ViewChildren, ElementRef } from '@angular
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PokeApiClient } from '../poke-api-client';
-import { Habitat, HabitatsList } from '../api-habitat/PokemonHabitats';
-import { PrivateHabitat } from '../api-habitat/PrivateHabitats';
+import { Habitat, HabitatsList } from '../api-habitat/pokemonHabitats';
+import { PrivateHabitat } from '../api-habitat/privateHabitats';
 
 @Component({
   selector: 'app-habitats',

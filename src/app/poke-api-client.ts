@@ -4,19 +4,20 @@ import { PokemonMoves } from './pokemon-moves.interface';
 import { PokemonForms } from './pokemon-forms.interface';
 import { PokemonAbility, ShortAbility } from './pokemon-ability.interface';
 import { PokemonAnswer } from './pokemon-answer.interface';
-import { Pokemon } from './pokemon.interface';
+import { Pokemon, PokemonImage, PokemonImageNew } from './pokemon.interface';
 import {
   ResponseHabitat,
   ResponseHabitatsList,
   ResponseHabitatData,
-} from './api-habitat/ResponceHabitats';
-import { PokemonHabitat } from './api-habitat/PokemonHabitats';
-import { PrivateHabitat } from './api-habitat/PrivateHabitats';
+} from './api-habitat/responceHabitats';
+import { PokemonHabitat } from './api-habitat/pokemonHabitats';
+// import { PrivateHabitat } from './api-habitat/privateHabitats';
 import { BerriesResponse } from './api-berries/berries-response';
 import { pokemonItem } from './api-berries/pokemon-items';
 import { Berry } from './api-berries/berries-private';
 import { PokemonListResponse } from './list-page/pokemon-list-item';
 import { PokemonSpecies } from './pokemon-species.interface';
+import { PrivateHabitat } from './api-habitat/privateHabitats';
 
 @Injectable({
   providedIn: 'root',
@@ -104,6 +105,23 @@ export class PokeApiClient {
           displayName: ability.names.find((name) => name.language.name === 'en')?.name ?? '',
         };
       }),
+    };
+    return pokemon;
+  }
+
+  async getPokemonImage(name: string) {
+    const response = await this.httpClient.get<PokemonImage>(`${this.BASE_URL}pokemon/${name}`);
+    const data = response.data;
+    const pokemon = {
+      cries: data.cries,
+      name: data.name,
+      id: data.id,
+      images: [
+        { url: data.sprites.front_default },
+        { url: data.sprites.back_default },
+        { url: data.sprites.front_shiny },
+        { url: data.sprites.front_shiny },
+      ],
     };
     return pokemon;
   }

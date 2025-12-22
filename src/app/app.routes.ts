@@ -8,11 +8,16 @@ import { Locations } from './locations/locations';
 import { SearchAutocomplete } from './search-autocomplete/search-autocomplete';
 import { NotFoundPage } from './notFound-page/not-found-page';
 import { App } from './app';
+import { Slider } from './slider/slider';
 
 export const routes: Routes = [
   {
     component: SearchAutocomplete,
     path: 'SearchAutocomplete',
+  },
+  {
+    path: 'slider',
+    component: Slider,
   },
   {
     path: 'habitats',
