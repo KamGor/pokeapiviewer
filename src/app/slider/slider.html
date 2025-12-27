@@ -38,5 +38,25 @@
       Next
     </button>
   </div>
+
+  <div class="pagination-wrapper">
+    <button (click)="paginationHandler('prev')" [disabled]="isPrevDisabled">«</button>
+
+    <div class="page-numbers">
+      @if (currentPage > 3) {
+      <button (click)="goToPage(1)">1</button>
+      <span>...</span>
+      } @for (page of visiblePages; track page) {
+      <button (click)="goToPage(page)" [class.active]="page === currentPage">
+        {{ page }}
+      </button>
+      } @if (currentPage < totalPages - 2) {
+      <span>...</span>
+      <button (click)="goToPage(totalPages)">{{ totalPages }}</button>
+      }
+    </div>
+
+    <button (click)="paginationHandler('next')" [disabled]="isNextDisabled">»</button>
+  </div>
 </div>
 <router-outlet></router-outlet>
