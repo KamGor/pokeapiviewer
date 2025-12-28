@@ -67,4 +67,22 @@ export class PokemonPage implements OnInit {
       console.error('Ошибка воспроизведения:', error);
     });
   }
+  getStatColor(statName: string): string {
+    switch (statName.toLowerCase()) {
+      case 'hp':
+        return '#4ade80'; // Green
+      case 'attack':
+        return '#f87171'; // Red
+      case 'defense':
+        return '#60a5fa'; // Blue
+      case 'special-attack':
+        return '#f472b6'; // Pink
+      case 'special-defense':
+        return '#a78bfa'; // Purple
+      case 'speed':
+        return '#fbbf24'; // Yellow
+      default:
+        return '#ffffff'; // Default color
+    }
+  }
 }

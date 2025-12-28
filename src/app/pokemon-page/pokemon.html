@@ -55,15 +55,17 @@
           </div>
           <div class="stats grid grid-row-3 mt-7">
             <h1 class="font-bold text-white text-lg mb-4">Stats</h1>
-            <div class="grid grid-cols-2 gap-4 text-white text-sm md:text-base">
-              @if (pokemon.stats) { @for (stat of pokemon.stats;track $index) {
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-white text-sm md:text-base">
+              @if (pokemon.stats) { @for (stat of pokemon.stats; track $index) {
               <div
-                class="bg-[#FF994D] text-transform: uppercase font-bold justify-between p-3 rounded-md"
+                class="h-full p-2 rounded-md flex flex-col gap-2 rounded-full transition-all duration-1000 ease-out"
+                [style.backgroundColor]="getStatColor(stat.stat.name)"
               >
-                <span class="text-white">
-                  {{ stat.stat.name }}
-                  {{ stat.base_stat }}
-                </span>
+                <div class="flex justify-between items-center">
+                  <span class="uppercase font-bold text-white">{{ stat.stat.name }}</span>
+                  <span class="font-black">{{ stat.base_stat }}</span>
+                </div>
               </div>
               } }
             </div>
@@ -104,9 +106,7 @@
     </div>
     }
     <!-- end @if (pokemon) -->
-
     }
-
     <router-outlet></router-outlet>
   </div>
 </div>
