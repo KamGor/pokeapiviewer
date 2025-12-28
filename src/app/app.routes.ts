@@ -11,6 +11,7 @@ import { App } from './app';
 import { Slider } from './slider/slider';
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'SearchAutocomplete', pathMatch: 'full' },
   {
     component: SearchAutocomplete,
     path: 'SearchAutocomplete',
@@ -62,5 +63,5 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '**', component: NotFoundPage, redirectTo: '' },
+  { path: '**', component: NotFoundPage },
 ];
