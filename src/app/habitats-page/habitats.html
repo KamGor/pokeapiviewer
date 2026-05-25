@@ -1,0 +1,61 @@
+<div class="container p-8 bg-[#77B35B] rounded-4xl lg:w-3/4 mx-auto">
+  @if(isList) { @if(habitatsList) {
+  <div class="text-lg mb-2 text-white">Habitats List:</div>
+  <ul>
+    @for (habitat of habitatsList.results; track $index) {
+    <li class="py-1">
+      <a class="cursor-pointer text-white" (click)="navigateDetails(habitat.name)"
+        >Habitat: <span class="font-bold">{{ habitat.name }}</span></a
+      >
+    </li>
+    }
+  </ul>
+  } } @else { @if (habitatData) {
+
+  <div class="grid grid-cols-13">
+    <div class="col-span-13 md:col-span-4">
+      @if(habitatData.pokemon_species) {
+      <ul class="bg-yellow-400 p-2 rounded-4xl mx-2">
+        @for(pokemon of habitatData.pokemon_species; track $index) {
+        <li>
+          <a class="cursor-pointer text-white" (click)="navigatePokemon(pokemon.name)"
+            >Pokemon: <span class="font-bold">{{ pokemon.name }}</span></a
+          >
+        </li>
+        }
+      </ul>
+      }
+    </div>
+    <div class="col-span-13 md:col-span-9 font-medium">
+      <p class="name text-center text-white">Habitat:{{ habitatSpecies?.name }}</p>
+      @if (habitatSpecies) { @if(habitatSpecies.pokemonSpecies) {
+      <div class="py-16">
+        @for(habit of habitatSpecies.pokemonSpecies; track $index) {
+        <div #habitSection [id]="habit.name + '-' + $index" class="py-2">
+          <div class="flex flex-col md:flex-row gap-2">
+            <p class="bg-[#BFC66B] rounded-full px-2 py-1 text-white" id="baseHappiness">
+              Base Hapinnes:{{ habit.baseHappiness }}
+            </p>
+            <p class="bg-[#BFC66B] rounded-full px-2 py-1 text-white" id="captureRate">
+              Capture Rate:{{ habit.captureRate }}
+            </p>
+          </div>
+          <ul class="py-2">
+            @for(flavorText of habit.flavorText; track $index) { @if(flavorText.flavorText !== '') {
+            <li class="py-1 text-white">- {{ flavorText.flavorText }}</li>
+            } }
+          </ul>
+        </div>
+        }
+      </div>
+      } } @else {
+      <span
+        >Jesli to czytasz to Api nie daje mi zadnej odpowiedzi z serwera, a w konsoli mam error
+        404</span
+      >
+      }
+    </div>
+  </div>
+  } }
+  <router-outlet></router-outlet>
+</div>

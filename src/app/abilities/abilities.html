@@ -1,0 +1,15 @@
+@if (ability) {
+<section class="lg:w-1/2 mx-auto">
+  <div class="text-white py-5 font-italic bg-[#77B35B] rounded-4xl">
+    <div class="flex flex-row justify-center">
+      <span class="cursor-pointer p-3 bg-[#BFC66B] rounded-md font-medium">
+        {{ ability.name }}
+      </span>
+    </div>
+    <div class="text-center">
+      {{ ability.discription }}
+    </div>
+  </div>
+</section>
+}
+<router-outlet></router-outlet>

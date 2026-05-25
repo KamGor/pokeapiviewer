@@ -1,0 +1,112 @@
+<div class="lg:container mx-auto px-8 md:px-16 lg:32 mb-16">
+  <div class="bg-[#77B35B] rounded-4xl">
+    @if (!isDataLoaded) {
+    <img src="/preloader.gif" alt="" />
+    }
+    <!-- End preloader -->
+    @if (error) {
+    <p>error</p>
+    } @else {
+    <!-- if not error -->
+    @if (pokemon){
+    <div class="flex flex-col md:flex-row gap-10 p-10">
+      <div class="pokemon-main-image w-full md:w-3/5">
+        <img class="w-full h-auto" [src]="pokemon?.imgSprite" alt="" />
+      </div>
+      <div class="pokemon-info w-full md:w-2/5">
+        <div class="font-bold text-white text-left flex gap-2">#{{ pokemon?.id }}</div>
+        <div class="text-left font-bold text-white item-center flex gap-2 capitalize">
+          {{ pokemon?.name }}
+          <button (click)="playCry(pokemon.cries.latest)" class="audio-btn">
+            🔊 Play pokemon voice
+          </button>
+          <button (click)="playCry(pokemon.cries.legacy)" class="audio-btn">
+            🔊 Play pokemon voice
+          </button>
+        </div>
+
+        <div class="types flex gap-2">
+          @for (type of pokemon.types; track $index) {
+          <span
+            class="bg-[#BFC66B] capitalize w-15 h-6 text-sm text-center inline-block rounded-full mt-2 text-white font-bold"
+          >
+            {{ type.type.name }}
+          </span>
+          }
+        </div>
+
+        <div class="pokemon-data flex flex-col gap-2">
+          <div class="short-description text-white font-bold">
+            <div>
+              @if (pokemon.species) { @for (specie of pokemon.species; track $index) {
+              <span>
+                {{ specie.description }}
+              </span>
+              }}
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4 text-white">
+            <div class="flex flex-row justify-between p-2 bg-[#BFC66B] rounded-md">
+              <span class="font-bold">Height</span><span>{{ pokemon?.height }} m</span>
+            </div>
+            <div class="flex flex-row justify-between p-2 bg-[#BFC66B] rounded-md">
+              <span class="font-bold">Weight</span><span>{{ pokemon?.weight }} m</span>
+            </div>
+          </div>
+          <div class="stats grid grid-row-3 mt-7">
+            <h1 class="font-bold text-white text-lg mb-4">Stats</h1>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-white text-sm md:text-base">
+              @if (pokemon.stats) { @for (stat of pokemon.stats; track $index) {
+              <div
+                class="h-full p-2 rounded-md flex flex-col gap-2 rounded-full transition-all duration-1000 ease-out"
+                [style.backgroundColor]="getStatColor(stat.stat.name)"
+              >
+                <div class="flex justify-between items-center">
+                  <span class="uppercase font-bold text-white">{{ stat.stat.name }}</span>
+                  <span class="font-black">{{ stat.base_stat }}</span>
+                </div>
+              </div>
+              } }
+            </div>
+          </div>
+          <h2 class="font-bold text-white text-lg mt-4">Abilities</h2>
+          <p class="text-white text-center font-medium mt-1">
+            (Click on types of abilities to read about.)
+          </p>
+          <div class="flex flex-row justify-center">
+            <svg
+              class="mb-2 rotate-180 animate-bounce"
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="none"
+                stroke="#f0b60e"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 5v14m6-8l-6-6m-6 6l6-6"
+              />
+            </svg>
+          </div>
+          <div class="Abilities grid grid-cols-2 gap-4 text-white">
+            @if (pokemon.abilities) { @for (ability of pokemon.abilities;track $index) {
+            <a
+              (click)="navigateDetails(ability.name)"
+              class="cursor-pointer flex flex-row justify-center p-3 bg-[#BFC66B] rounded-md font-medium"
+              >{{ ability.displayName }}</a
+            >
+            } }
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+    <!-- end @if (pokemon) -->
+    }
+    <router-outlet></router-outlet>
+  </div>
+</div>

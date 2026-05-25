@@ -1,0 +1,37 @@
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.page-numbers {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.page-numbers button {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.page-numbers button.active {
+  background-color: #ef5350; /* Цвет покебола */
+  color: white;
+  border-color: #b71c1c;
+  font-weight: bold;
+}
+
+.page-numbers button:hover:not(.active) {
+  background-color: #f0f0f0;
+}
+
+span {
+  color: #666;
+  padding: 0 5px;
+}

@@ -1,0 +1,62 @@
+<div>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    @if(listPokemons) { @for(pokemon of pokemonDetalis; track $index) {
+    <div class="bg-[#BFC66B] rounded-md">
+      <div class="text-center">
+        {{ pokemon.name }}
+        <button (click)="playCry(pokemon.cries.latest)" class="audio-btn">
+          🔊 Play pokemon voice
+        </button>
+        <button (click)="playCry(pokemon.cries.legacy)" class="audio-btn">
+          🔊 Play pokemon voice
+        </button>
+      </div>
+      <swiper-container navigation="true" pagination="true" scrollbar="true">
+        @for (image of pokemon.images; track $index) {
+        <swiper-slide class="pb-4 flex h-40 justify-center">
+          <img [src]="image.url" alt="" />
+        </swiper-slide>
+        }
+      </swiper-container>
+    </div>
+    }}
+  </div>
+  <div class="flex justify-between gap-2">
+    <button
+      [disabled]="isPrevDisabled"
+      (click)="paginationHandler('prev')"
+      class="bg-green-400 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+    >
+      Prev
+    </button>
+
+    <button
+      [disabled]="isNextDisabled"
+      (click)="paginationHandler('next')"
+      class="bg-green-500 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+    >
+      Next
+    </button>
+  </div>
+
+  <div class="pagination-wrapper">
+    <button (click)="paginationHandler('prev')" [disabled]="isPrevDisabled">«</button>
+
+    <div class="page-numbers">
+      @if (currentPage > 3) {
+      <button (click)="goToPage(1)">1</button>
+      <span>...</span>
+      } @for (page of visiblePages; track page) {
+      <button (click)="goToPage(page)" [class.active]="page === currentPage">
+        {{ page }}
+      </button>
+      } @if (currentPage < totalPages - 2) {
+      <span>...</span>
+      <button (click)="goToPage(totalPages)">{{ totalPages }}</button>
+      }
+    </div>
+
+    <button (click)="paginationHandler('next')" [disabled]="isNextDisabled">»</button>
+  </div>
+</div>
+<router-outlet></router-outlet>
