@@ -13,7 +13,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-pokemon',
-  imports: [FormsModule, CommonModule, RouterLink, RouterOutlet, RouterLinkActive],
+  imports: [FormsModule, CommonModule, RouterOutlet],
   templateUrl: './pokemon.html',
   styleUrl: './pokemon.scss',
 })
@@ -26,7 +26,7 @@ export class PokemonPage implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private pokeApiClient: PokeApiClient
+    private pokeApiClient: PokeApiClient,
   ) {}
 
   async ngOnInit() {
@@ -62,7 +62,7 @@ export class PokemonPage implements OnInit {
     if (!audioUrl) return;
 
     const audio = new Audio(audioUrl);
-    audio.load(); // Предзагрузка
+    audio.load();
     audio.play().catch((error) => {
       console.error('Ошибка воспроизведения:', error);
     });

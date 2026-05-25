@@ -10,7 +10,7 @@ import { PokemonImageNew } from '../pokemon.interface';
 
 @Component({
   selector: 'app-slider',
-  imports: [RouterLink, RouterOutlet, ListPage, CommonModule, FormsModule],
+  imports: [RouterOutlet, CommonModule, FormsModule],
   templateUrl: './slider.html',
   styleUrl: './slider.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -26,7 +26,10 @@ export class Slider implements OnInit {
   isLoading: boolean = false;
   pokemon: any;
   totalPokemons: number = 0;
-  constructor(private router: Router, private pokeApiClient: PokeApiClient) {}
+  constructor(
+    private router: Router,
+    private pokeApiClient: PokeApiClient,
+  ) {}
 
   async ngOnInit(): Promise<void> {
     await this.getPokemonList();

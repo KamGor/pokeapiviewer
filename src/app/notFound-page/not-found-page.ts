@@ -13,7 +13,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     RouterOutlet,
     FormsModule,
     CommonModule,
-    SearchAutocomplete,
     FormsModule,
     CommonModule,
   ],
